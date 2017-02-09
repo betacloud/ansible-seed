@@ -1,0 +1,46 @@
+# This file is subject to the terms and conditions defined in file 'LICENSE',
+# which is part of this repository.
+---
+- name: Include distribution specific variables
+  include_vars: "vars/{{ ansible_os_family }}.yml"
+
+- name: Install required packages
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ required_packages }}"
+  become: true
+
+- name: Create ansible roles directory
+  file:
+    path: "{{ configuration_directory }}/{{ ansible_roles_path}}"
+    state: directory
+
+- name: Download private role tarballs
+  get_url:
+    url: "https://{{ nexus_server }}/repository/{{ nexus_roles_repository }}/{{ item }}-{{ nexus_roles_version }}.tar.gz"
+    dest: "{{ configuration_directory }}/{{ ansible_roles_path}}/{{ item }}.tar.gz"
+    mode: 0644
+    url_username: "{{ nexus_username }}"
+    url_password: "{{ nexus_password }}"
+    force_basic_auth: yes
+  with_items: "{{ nexus_roles }}"
+
+- name: Copy preparation script
+  template:
+    src: prepare.sh.j2
+    dest: /usr/local/bin/prepare.sh
+    owner: root
+    group: root
+    mode: 0755
+  become: true
+
+- name: Run preparation script
+  command: /usr/local/bin/prepare.sh
+  changed_when: false
+
+- name: Remove private role tarballs
+  file:
+    path: "{{ configuration_directory }}/{{ ansible_roles_path}}/{{ item }}.tar.gz"
+    state: absent
+  with_items: "{{ nexus_roles }}"

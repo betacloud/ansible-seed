@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+pushd {{ configuration_directory }}
+
+virtualenv -q {{ configuration_directory }}/venv
+source {{ configuration_directory }}/venv/bin/activate
+
+pip install --upgrade pip
+
+if [[ -e {{ configuration_directory }}/requirements.txt ]]; then
+    pip install -r {{ configuration_directory }}/requirements.txt
+fi
+
+if [[ -e {{ configuration_directory }}/roles.yml ]]; then
+    ansible-galaxy install -f -r {{ configuration_directory }}/roles.yml --ignore-errors
+fi
+
+popd

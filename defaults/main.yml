@@ -1,0 +1,18 @@
+---
+ansible_roles_path: galaxy
+configuration_directory: /opt/kolla-configuration
+
+# parameters for nexus
+
+nexus_server: nexus.betacloud.io
+nexus_username: customer
+nexus_password: password
+
+nexus_roles:
+  - betacloud.bootstrap
+  - betacloud.kolla
+  - betacloud.seed
+  - betacloud.ufw
+  - betacloud.xenserver
+nexus_roles_repository: ansible-testing
+nexus_roles_version: latest
