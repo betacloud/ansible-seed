@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
 
+VENVNAME={{ venvname }}
+
 pushd {{ configuration_directory }}
 
-virtualenv -q {{ configuration_directory }}/venv
-source {{ configuration_directory }}/venv/bin/activate
+virtualenv -q {{ configuration_directory }}/$VENVNAME
+source {{ configuration_directory }}/$VENVNAME/bin/activate
 
 pip install --upgrade pip
 

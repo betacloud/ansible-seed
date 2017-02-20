@@ -39,6 +39,16 @@
   command: /usr/local/bin/prepare.sh
   changed_when: false
 
+- name: Set system wide settings in profile file
+  blockinfile:
+    dest: /etc/profile.d/ansbile.sh
+    marker: "# {mark} ANSIBLE MANAGED BLOCK (betacloud.seed)"
+    block: |
+      source {{ configuration_directory }}/{{ venvname }}/bin/activate
+      export PS1='(ansible) \t \u@\H \W $ '
+    create: yes
+  become: true
+
 - name: Remove private role tarballs
   file:
     path: "{{ configuration_directory }}/{{ ansible_roles_path}}/{{ item }}.tar.gz"
