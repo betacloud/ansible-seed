@@ -54,3 +54,9 @@
     path: "{{ configuration_directory }}/{{ ansible_roles_path}}/{{ item }}.tar.gz"
     state: absent
   with_items: "{{ nexus_roles }}"
+
+- name: Create ssh private key file
+  copy:
+    content: "{{ kolla_private_key }}"
+    dest: "{{ configuration_directory }}/configuration/id_rsa.kolla"
+    mode: 0600
