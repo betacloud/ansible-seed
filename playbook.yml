@@ -14,6 +14,7 @@
   vars:
     nexus_password: aeghimah1Kaechor
     nexus_username: betacloud-jenkins
+    operator_user: "{{ ansible_user }}"
 
   roles:
   - role: ansible-betacloud.seed
