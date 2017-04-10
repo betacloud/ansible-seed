@@ -18,5 +18,5 @@ nexus_roles:
   - betacloud.seed
   - betacloud.ufw
   - betacloud.xenserver
-nexus_roles_repository: ansible-testing
+nexus_roles_repository: ansible
 nexus_roles_version: latest
