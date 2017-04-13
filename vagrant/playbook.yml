@@ -11,9 +11,10 @@
     become: true
 
 - hosts: all
-  vars:
-    nexus_password: aeghimah1Kaechor
-    nexus_username: betacloud-jenkins
+
+  pre_tasks:
+  - name: Include molecule variables
+    include_vars: ../vars/molecule.yml
 
   roles:
   - role: "../../ansible-betacloud.seed"

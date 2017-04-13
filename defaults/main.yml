@@ -13,7 +13,6 @@ nexus_password: password
 
 nexus_roles:
   - betacloud.bootstrap
-  - betacloud.configuration
   - betacloud.kolla
   - betacloud.seed
   - betacloud.ufw
