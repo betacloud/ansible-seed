@@ -1,8 +1,6 @@
 ---
 ansible_roles_path: galaxy
 configuration_directory: /opt/kolla-configuration
-kolla_private_key: |
-  KOLLA_PRIVATE_KEY
 venvname: ansible
 
 # parameters for nexus
