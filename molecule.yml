@@ -29,6 +29,7 @@ ansible:
   timeout: 120
 verifier:
   name: testinfra
+  enabled: False
   options:
     connection: ansible
 molecule:
@@ -41,5 +42,4 @@ molecule:
       - destroy
       - create
       - converge
-      - verify
       - destroy
