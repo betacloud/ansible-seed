@@ -17,4 +17,5 @@
     include_vars: ../vars/molecule.yml
 
   roles:
+  - role: betacloud.configuration
   - role: "../../ansible-betacloud.seed"
