@@ -18,8 +18,8 @@
 
 - name: Download private role tarballs
   get_url:
-    url: "https://{{ nexus_server }}/repository/{{ nexus_roles_repository }}/{{ item }}-{{ nexus_roles_version }}.tar.gz"
-    dest: "{{ configuration_directory }}/{{ ansible_roles_path}}/{{ item }}.tar.gz"
+    url: "https://{{ nexus_server }}/repository/{{ nexus_repository }}/{{ item.name }}-{{ item.version }}.tar.gz"
+    dest: "{{ configuration_directory }}/{{ ansible_roles_path}}/{{ item.name }}.tar.gz"
     mode: 0644
     url_username: "{{ nexus_username }}"
     url_password: "{{ nexus_password }}"
@@ -51,6 +51,6 @@
 
 - name: Remove private role tarballs
   file:
-    path: "{{ configuration_directory }}/{{ ansible_roles_path}}/{{ item }}.tar.gz"
+    path: "{{ configuration_directory }}/{{ ansible_roles_path}}/{{ item.name }}.tar.gz"
     state: absent
   with_items: "{{ nexus_roles }}"

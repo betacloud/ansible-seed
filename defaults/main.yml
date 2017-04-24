@@ -5,15 +5,19 @@ venvname: ansible
 
 # parameters for nexus
 
+nexus_password: password
+nexus_repository: ansible
 nexus_server: nexus.betacloud.io
 nexus_username: customer
-nexus_password: password
 
 nexus_roles:
-  - betacloud.bootstrap
-  - betacloud.kolla
-  - betacloud.seed
-  - betacloud.ufw
-  - betacloud.xenserver
-nexus_roles_repository: ansible
-nexus_roles_version: latest
+  - name: betacloud.bootstrap
+    version: latest
+  - name: betacloud.kolla
+    version: latest
+  - name: betacloud.seed
+    version: latest
+  - name: betacloud.ufw
+    version: latest
+  - name: betacloud.xenserver
+    version: latest
