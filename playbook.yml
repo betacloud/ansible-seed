@@ -12,9 +12,8 @@
 
 - hosts: all
 
-  pre_tasks:
-  - name: Include molecule variables
-    include_vars: molecule.yml
+  vars_files:
+    - vars/molecule.yml
 
   roles:
   - role: betacloud.configuration
