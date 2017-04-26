@@ -15,6 +15,10 @@ if [[ -e $OPENRCFILE ]]; then
     source $OPENRCFILE
 fi
 
+if [[ -e $MOLECULEVARSFILE ]]; then
+    cp $MOLECULEVARSFILE vars/molecule.yml
+fi
+
 if [[ -e tox.ini ]]; then
     tox -e ansible$ANSIBLEVERSION
 fi

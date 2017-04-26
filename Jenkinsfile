@@ -13,16 +13,20 @@ node {
 
     stage('Test 2.2') {
       configFileProvider([configFile(fileId: env.OPENRCFILEID, variable: 'OPENRCFILE')]) {
-        withEnv(["ANSIBLEVERSION=22"]) {
-          sh 'scripts/test.sh'
+        configFileProvider([configFile(fileId: env.MOLECULEVARSFILEID, variable: 'MOLECULEVARSFILE')]) {
+          withEnv(["ANSIBLEVERSION=22"]) {
+            sh 'scripts/test.sh'
+          }
         }
       }
     }
 
     stage('Test 2.3') {
       configFileProvider([configFile(fileId: env.OPENRCFILEID, variable: 'OPENRCFILE')]) {
-        withEnv(["ANSIBLEVERSION=23"]) {
-          sh 'scripts/test.sh'
+        configFileProvider([configFile(fileId: env.MOLECULEVARSFILEID, variable: 'MOLECULEVARSFILE')]) {
+          withEnv(["ANSIBLEVERSION=23"]) {
+            sh 'scripts/test.sh'
+          }
         }
       }
     }
