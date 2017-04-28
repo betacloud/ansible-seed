@@ -1,8 +1,10 @@
 # This file is subject to the terms and conditions defined in file 'LICENSE',
 # which is part of this repository.
 ---
-- hosts: all
+- name: Install python version 2 on ubuntu
+  hosts: all
   gather_facts: no
+
   tasks:
   - name: Install python version 2 on ubuntu
     raw: test -e /usr/bin/python || (test -e /usr/bin/apt && (apt -y update && apt install -y python-minimal))
@@ -10,11 +12,13 @@
     changed_when: result.rc != 0
     become: true
 
-- hosts: all
+- name: Playbook for role testing
+  hosts: all
 
-  vars_files:
-    - ../vars/molecule.yml
+  pre_tasks:
+  - name: Include vagrant variables
+    include_vars: vars/vagrant.yml
 
   roles:
   - role: betacloud.configuration
-  - role: "../../ansible-betacloud.seed"
+  - role: ../../ansible-betacloud.seed
