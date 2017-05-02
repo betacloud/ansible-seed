@@ -1,4 +1,4 @@
 ---
 configuration_type: git
-configuration_git_repository: https://github.com/openstack/kolla.git
-configuration_git_version: 4.0.0
+configuration_git_repository: https://github.com/betacloud/configuration-vagrant
+configuration_git_version: master
