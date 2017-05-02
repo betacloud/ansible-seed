@@ -6,7 +6,7 @@ venvname: ansible
 # parameters for nexus
 
 nexus_password: password
-nexus_repository: ansible
+nexus_roles_repository: ansible
 nexus_server: nexus.betacloud.io
 nexus_username: customer
 

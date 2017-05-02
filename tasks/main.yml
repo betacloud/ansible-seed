@@ -18,7 +18,7 @@
 
 - name: Download private role tarballs
   get_url:
-    url: "https://{{ nexus_server }}/repository/{{ nexus_repository }}/{{ item.name }}-{{ item.version }}.tar.gz"
+    url: "https://{{ nexus_server }}/repository/{{ nexus_roles_repository }}/{{ item.name }}-{{ item.version }}.tar.gz"
     dest: "{{ configuration_directory }}/{{ ansible_roles_path}}/{{ item.name }}.tar.gz"
     mode: 0644
     url_username: "{{ nexus_username }}"
