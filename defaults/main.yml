@@ -1,6 +1,6 @@
 ---
 ansible_roles_path: galaxy
-configuration_directory: /opt/kolla-configuration
+configuration_directory: /opt/configuration
 venvname: ansible
 
 # parameters for nexus
