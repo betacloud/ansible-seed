@@ -26,11 +26,20 @@
     force_basic_auth: yes
   with_items: "{{ nexus_roles }}"
 
+- name: Create directory for virtual environment
+  file:
+    path: "{{ venv_directory }}"
+    owner: "{{ ansible_user }}"
+    state: directory
+    mode: 0750
+  become: true
+
+
 - name: Prepare virtual environment
   pip:
     name: pip
     state: latest
-    virtualenv: "{{ configuration_directory }}/{{ venvname }}"
+    virtualenv: "{{ venv_directory }}"
 
 - name: Check if requirements file exists
   stat:
@@ -40,12 +49,12 @@
 - name: Install requirements in virtual environment
   pip:
     requirements: "{{ configuration_directory }}/requirements.txt"
-    virtualenv: "{{ configuration_directory }}/{{ venvname }}"
+    virtualenv: "{{ venv_directory }}"
   when: stat_requirements_file.stat.exists
 
 - name: Install required roles
   shell: |
-    source {{ configuration_directory }}/{{ venvname }}/bin/activate
+    source {{ venv_directory }}/bin/activate
     ansible-galaxy install -f --ignore-errors -r roles/roles-{{ item }}.yml
   args:
     executable: /bin/bash
@@ -61,7 +70,7 @@
 
 - name: Install distribution specific roles
   shell: |
-    source {{ configuration_directory }}/{{ venvname }}/bin/activate
+    source {{ venv_directory }}/bin/activate
     ansible-galaxy install -f --ignore-errors -r roles/roles-{{ ansible_os_family }}.yml
   args:
     executable: /bin/bash
@@ -70,7 +79,7 @@
 
 - name: Install xenserver specific role
   shell: |
-    source {{ configuration_directory }}/{{ venvname }}/bin/activate
+    source {{ venv_directory }}/bin/activate
     ansible-galaxy install -f --ignore-errors -r roles/roles-xenserver.yml
   args:
     executable: /bin/bash
@@ -82,7 +91,7 @@
     dest: /etc/profile.d/ansbile.sh
     marker: "# {mark} ANSIBLE MANAGED BLOCK (betacloud.seed)"
     block: |
-      source {{ configuration_directory }}/{{ venvname }}/bin/activate
+      source {{ venv_directory }}/bin/activate
       export PS1='(ansible) \t \u@\H \W $ '
     create: yes
   become: true

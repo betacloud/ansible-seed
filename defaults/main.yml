@@ -1,7 +1,8 @@
 ---
 ansible_roles_path: galaxy
 configuration_directory: /opt/configuration
-venvname: ansible
+
+venv_directory: /opt/venv-ansible
 
 # parameters for nexus
 
