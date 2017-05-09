@@ -4,6 +4,11 @@ configuration_directory: /opt/configuration
 
 venv_directory: /opt/venv-ansible
 
+kolla_private_key: |
+  -----BEGIN RSA PRIVATE KEY-----
+  ...
+  -----END RSA PRIVATE KEY-----
+
 # parameters for nexus
 
 nexus_password: password

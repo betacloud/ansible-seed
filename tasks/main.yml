@@ -101,3 +101,17 @@
     path: "{{ configuration_directory }}/{{ ansible_roles_path}}/{{ item.name }}.tar.gz"
     state: absent
   with_items: "{{ nexus_roles }}"
+
+# NOTE: http://stackoverflow.com/questions/33343215/how-to-get-remote-users-home-directory-in-ansible
+- name: Get home directory of operator user
+  shell: "getent passwd {{ operator_user }} | cut -d: -f6"
+  changed_when: false
+  register: home_operator
+
+- name: Copy private SSH key for operator user
+  copy:
+    content: "{{ kolla_private_key }}"
+    dest: "{{ home_operator.stdout }}/.ssh/id_rsa.kolla"
+    owner: "{{ operator_user }}"
+    mode: 0600
+  become: true
