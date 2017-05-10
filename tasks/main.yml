@@ -118,3 +118,12 @@
     owner: "{{ operator_user }}"
     mode: 0600
   become: true
+
+- name: Create logs directory
+  file:
+    state: directory
+    path: "{{ logs_directory }}"
+    mode: 0750
+    owner: "{{ operator_user }}"
+    group: "{{ operator_user }}"
+  become: true
