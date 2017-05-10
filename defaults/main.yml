@@ -1,7 +1,10 @@
 ---
 ansible_roles_path: galaxy
-configuration_directory: /opt/configuration
 
+# directories
+
+configuration_directory: /opt/configuration
+secrets_directory: /opt/secrets
 venv_directory: /opt/venv-ansible
 
 kolla_private_key: |
