@@ -2,7 +2,8 @@
 # which is part of this repository.
 ---
 required_packages:
+  - gcc
+  - git
+  - openssl-devel
   - python-virtualenv
   - python2-pip
-  - gcc
-  - openssl-devel

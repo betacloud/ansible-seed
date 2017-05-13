@@ -2,7 +2,8 @@
 # which is part of this repository.
 ---
 required_packages:
+  - git
   - libffi-dev
   - libssl-dev
-  - python-virtualenv
   - python-pip
+  - python-virtualenv
