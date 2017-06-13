@@ -11,15 +11,24 @@
   with_items: "{{ required_packages }}"
   become: true
 
-- name: Create ansible roles directory
+- name: Create required directories
   file:
-    path: "{{ configuration_directory }}/{{ ansible_roles_path}}"
+    path: "{{ item }}"
     state: directory
+    owner: "{{ operator_user }}"
+    group: "{{ operator_user }}"
+    mode: 0700
+  with_items:
+    - "{{ ansible_roles_path }}"
+    - "{{ cache_directory }}"
+    - "{{ logs_directory }}"
+    - "{{ secrets_directory }}"
+  become: true
 
 - name: Download private role tarballs
   get_url:
     url: "https://{{ nexus_server }}/repository/{{ nexus_roles_repository }}/{{ item.name }}-{{ item.version }}.tar.gz"
-    dest: "{{ configuration_directory }}/{{ ansible_roles_path}}/{{ item.name }}.tar.gz"
+    dest: "{{ ansible_roles_path}}/{{ item.name }}.tar.gz"
     mode: 0644
     url_username: "{{ nexus_username }}"
     url_password: "{{ nexus_password }}"
@@ -98,18 +107,9 @@
 
 - name: Remove private role tarballs
   file:
-    path: "{{ configuration_directory }}/{{ ansible_roles_path}}/{{ item.name }}.tar.gz"
+    path: "{{ ansible_roles_path}}/{{ item.name }}.tar.gz"
     state: absent
   with_items: "{{ nexus_roles }}"
-
-- name: Create secrets directory
-  file:
-    state: directory
-    path: "{{ secrets_directory }}"
-    mode: 0750
-    owner: "{{ operator_user }}"
-    group: "{{ operator_user }}"
-  become: true
 
 - name: Copy private SSH key
   copy:
@@ -117,13 +117,4 @@
     dest: "{{ secrets_directory }}/id_rsa.kolla"
     owner: "{{ operator_user }}"
     mode: 0600
-  become: true
-
-- name: Create logs directory
-  file:
-    state: directory
-    path: "{{ logs_directory }}"
-    mode: 0750
-    owner: "{{ operator_user }}"
-    group: "{{ operator_user }}"
   become: true
