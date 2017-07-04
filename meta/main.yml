@@ -17,4 +17,3 @@ galaxy_info:
   dependencies:
   - name: betacloud.configuration
     src: git+https://github.com/betacloud/ansible-configuration.git
-    version: 20170426-1342-8581e13

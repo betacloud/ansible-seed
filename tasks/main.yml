@@ -43,7 +43,6 @@
     mode: 0750
   become: true
 
-
 - name: Prepare virtual environment
   pip:
     name: pip
