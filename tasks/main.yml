@@ -41,10 +41,18 @@
 - name: Create directory for virtual environment
   file:
     path: "{{ venv_directory }}"
-    owner: "{{ ansible_user }}"
+    owner: "{{ operator_user }}"
+    group: "{{ operator_user }}"
     state: directory
     mode: 0750
   become: true
+
+- name: Upgrade pip package
+  pip:
+    name: pip
+    state: latest
+    virtualenv: "{{ venv_directory }}"
+  become: ansible_os_family == 'RedHat'
 
 - name: Check if requirements file exists
   stat:
@@ -56,6 +64,7 @@
     requirements: "{{ configuration_directory }}/requirements.txt"
     virtualenv: "{{ venv_directory }}"
   when: stat_requirements_file.stat.exists
+  become: ansible_os_family == 'RedHat'
 
 - name: Install required roles
   shell: |

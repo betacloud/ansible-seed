@@ -4,6 +4,7 @@
 required_packages:
   - gcc
   - git
+  - libffi-devel
   - openssl-devel
   - python-virtualenv
   - python2-pip
