@@ -27,8 +27,6 @@ nexus_roles:
     version: latest
   - name: betacloud.seed
     version: latest
-  - name: betacloud.ufw
-    version: latest
   - name: betacloud.xenserver
     version: latest
 
