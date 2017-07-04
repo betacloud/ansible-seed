@@ -17,8 +17,8 @@ kolla_private_key: |
 
 nexus_password: password
 nexus_roles_repository: ansible
-nexus_server: nexus.betacloud.io
-nexus_username: customer
+nexus_server: nexus-0.betacloud.io
+nexus_username: username
 
 nexus_roles:
   - name: betacloud.bootstrap
