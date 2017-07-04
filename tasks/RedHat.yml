@@ -1,0 +1,10 @@
+# This file is subject to the terms and conditions defined in file 'LICENSE',                                         
+# which is part of this repository.
+---
+- name: Add epel repository                                
+  yum_repository:                                          
+    name: epel                                             
+    description: EPEL                                      
+    baseurl: "{{ repository_epel_baseurl }}"
+    gpgkey: "{{ repository_epel_gpgkey }}"
+  become: true
