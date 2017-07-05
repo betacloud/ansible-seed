@@ -21,4 +21,4 @@
 
   roles:
   - role: betacloud.configuration
-  - role: ../../ansible-betacloud.seed
+  - role: ../../ansible-seed
