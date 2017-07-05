@@ -37,6 +37,7 @@
     url_password: "{{ nexus_password }}"
     force_basic_auth: yes
   with_items: "{{ nexus_roles }}"
+  ignore_errors: yes
 
 - name: Create directory for virtual environment
   file:
