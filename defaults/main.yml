@@ -3,7 +3,7 @@
 
 ansible_roles_path: /opt/ansible-galaxy
 cache_directory: /opt/ansible-cache
-configuration_directory: /opt/configuration
+generic_configuration_directory: /opt/configuration/generic
 logs_directory: /opt/ansible-logs
 secrets_directory: /opt/ansible-secrets
 venv_directory: /opt/ansible-venv
