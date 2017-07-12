@@ -72,7 +72,7 @@ python_requirements:
   - gilt-python
   - jinja2==2.8.1
   - shade
-  - docker-py
+  - docker
   - docker-compose
 
 # redhat/centos
