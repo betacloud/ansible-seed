@@ -24,8 +24,6 @@ nexus_roles:
     version: latest
   - name: betacloud.betacloud
     version: latest
-  - name: betacloud.seed
-    version: latest
 #  - name: betacloud.xenserver
 #    version: latest
 
@@ -41,6 +39,9 @@ ansible_roles:
     version: master
   - name: betacloud.docker
     src: git+https://github.com/betacloud/ansible-docker.git
+    version: master
+  - name: betacloud.seed
+    src: git+https://github.com/betacloud/ansible-seed.git
     version: master
   - name: betacloud.proxy
     src: git+https://github.com/betacloud/ansible-proxy.git
