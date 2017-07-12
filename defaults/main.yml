@@ -73,6 +73,7 @@ python_requirements:
   - shade
   - docker
   - docker-compose
+  - pexpect
 
 # redhat/centos
 
