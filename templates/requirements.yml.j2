@@ -1,0 +1,29 @@
+---
+##########################
+# Public roles
+
+{% for item in ansible_roles %}
+- name: {{ item.name }}
+  src: {{ item.src }}
+  version: {{ item.version }}
+
+{% endfor %}
+
+##########################
+# Distribution specific roles
+
+{% for item in ansible_roles_distro[ansible_os_family] %}
+- name: {{ item.name }}
+  src: {{ item.src }}
+  version: {{ item.version }}
+
+{% endfor %}
+
+##########################
+# Private roles
+
+{% for item in nexus_roles %}
+- name: {{ item.name }}
+  src: {{ ansible_roles_path }}/{{ item.name }}.tar.gz
+
+{% endfor %}

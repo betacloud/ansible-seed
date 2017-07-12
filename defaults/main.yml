@@ -3,7 +3,6 @@
 
 ansible_roles_path: /opt/ansible-galaxy
 cache_directory: /opt/ansible-cache
-generic_configuration_directory: /opt/configuration/generic
 logs_directory: /opt/ansible-logs
 secrets_directory: /opt/ansible-secrets
 venv_directory: /opt/ansible-venv
@@ -27,6 +26,51 @@ nexus_roles:
     version: latest
   - name: betacloud.seed
     version: latest
+#  - name: betacloud.xenserver
+#    version: latest
+
+ansible_roles:
+  - name: hardening
+    src: git+https://github.com/openstack/ansible-hardening.git
+    version: 15.1.3
+  - name: ANXS.hostname
+    src: git+https://github.com/ANXS/hostname.git
+    version: 4e5ece5a9ad39361fd6b0db02f07fa846d457f98
+  - name: betacloud.configuration
+    src: git+https://github.com/betacloud/ansible-configuration.git
+    version: master
+  - name: betacloud.docker
+    src: git+https://github.com/betacloud/ansible-docker.git
+    version: master
+  - name: betacloud.proxy
+    src: git+https://github.com/betacloud/ansible-proxy.git
+    version: master
+  - name: betacloud.docker-cobbler
+    src: git+https://github.com/betacloud/ansible-docker-cobbler.git
+    version: master
+
+ansible_roles_distro:
+  Debian:
+    - name: network-interfaces
+      src: git+https://github.com/dresden-weekly/ansible-network-interfaces.git
+      version: 223cd51d68e5a260663d03573b7ae1f3d368a560
+
+    - name: debops.grub
+      src: git+https://github.com/debops/ansible-grub.git
+      version: 98fef89251f5843eba35159c19219045267cd5d3
+
+    - name: ANXS.apt
+      src: git+https://github.com/ANXS/apt.git
+      version: 0c544ce34d193096d43fd828afea54e2a7c091df
+
+  RedHat: []
+
+python_requirements:
+  - ansible>=2.3.0.0
+  - ara>=0.13.3
+  - gilt-python
+  - jinja2==2.8.1
+  - shade
 
 # redhat/centos
 

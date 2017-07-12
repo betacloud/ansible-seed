@@ -28,6 +28,14 @@
     - "{{ secrets_directory }}"
   become: true
 
+- name: Copy roles requirements file
+  template:
+    src: requirements.yml.j2
+    dest: "{{ ansible_roles_path }}/requirements.yml"
+    owner: "{{ operator_user }}"
+    group: "{{ operator_user }}"
+    mode: 0600
+
 - name: Download private role tarballs
   get_url:
     url: "https://{{ nexus_server }}/repository/{{ nexus_roles_repository }}/{{ item.name }}-{{ item.version }}.tar.gz"
@@ -55,51 +63,21 @@
     virtualenv: "{{ venv_directory }}"
   become: ansible_os_family == 'RedHat'
 
-- name: Check if requirements file exists
-  stat:
-    path: "{{ generic_configuration_directory }}/requirements.txt"
-  register: stat_requirements_file
-
-- name: Install requirements in virtual environment
-  pip:
-    requirements: "{{ generic_configuration_directory }}/requirements.txt"
-    virtualenv: "{{ venv_directory }}"
-  when: stat_requirements_file.stat.exists
+- name: Install required packages in virtual environment
+  shell: |
+    source "{{ venv_directory }}/bin/activate"
+    pip install {{ item }}
+  args:
+    executable: /bin/bash
   become: ansible_os_family == 'RedHat'
+  with_items: "{{ python_requirements }}"
 
-- name: Install required roles
+- name: Install required ansible roles
   shell: |
     source {{ venv_directory }}/bin/activate
-    ansible-galaxy install -f --ignore-errors -r roles/roles-{{ item }}.yml
+    ansible-galaxy install -f --ignore-errors -r {{ ansible_roles_path }}/requirements.yml
   args:
     executable: /bin/bash
-    chdir: "{{ generic_configuration_directory }}"
-  with_items:
-    - private
-    - public
-
-- name: Check if distribution specific roles file exists
-  stat:
-    path: "{{ generic_configuration_directory }}/roles/roles-{{ ansible_os_family }}.yml"
-  register: stat_distribution_role_file
-
-- name: Install distribution specific roles
-  shell: |
-    source {{ venv_directory }}/bin/activate
-    ansible-galaxy install -f --ignore-errors -r roles/roles-{{ ansible_os_family }}.yml
-  args:
-    executable: /bin/bash
-    chdir: "{{ generic_configuration_directory }}"
-  when: stat_distribution_role_file.stat.exists
-
-- name: Install xenserver specific role
-  shell: |
-    source {{ venv_directory }}/bin/activate
-    ansible-galaxy install -f --ignore-errors -r roles/roles-xenserver.yml
-  args:
-    executable: /bin/bash
-    chdir: "{{ generic_configuration_directory }}"
-  when: "'xenserver' in group_names"
 
 - name: Set system wide settings in profile file
   blockinfile:
