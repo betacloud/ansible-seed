@@ -22,7 +22,7 @@ nexus_username: username
 nexus_roles:
   - name: betacloud.bootstrap
     version: latest
-  - name: betacloud.kolla
+  - name: betacloud.betacloud
     version: latest
   - name: betacloud.seed
     version: latest
