@@ -55,7 +55,7 @@
 
 - name: Install required python packages
   shell: |
-    pip install {{ item }}
+    pip install '{{ item }}'
   args:
     executable: /bin/bash
   with_items: "{{ python_requirements }}"

@@ -2,6 +2,7 @@
 # which is part of this repository.
 ---
 required_packages:
+  - expect
   - git
   - libffi-dev
   - libssl-dev
