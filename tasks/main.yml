@@ -47,45 +47,25 @@
   with_items: "{{ nexus_roles }}"
   ignore_errors: yes
 
-- name: Create directory for virtual environment
-  file:
-    path: "{{ venv_directory }}"
-    owner: "{{ operator_user }}"
-    group: "{{ operator_user }}"
-    state: directory
-    mode: 0750
-  become: true
-
-- name: Prepare virtual environment
+- name: Upgrade pip
   pip:
     name: pip
-    virtualenv: "{{ venv_directory }}"
+    state: latest
+  become: true
 
-- name: Install required packages in virtual environment
+- name: Install required python packages
   shell: |
-    source "{{ venv_directory }}/bin/activate"
-    pip install --upgrade pip
     pip install {{ item }}
   args:
     executable: /bin/bash
   with_items: "{{ python_requirements }}"
+  become: true
 
 - name: Install required ansible roles
   shell: |
-    source {{ venv_directory }}/bin/activate
     ansible-galaxy install -f --ignore-errors -r {{ ansible_roles_path }}/requirements.yml
   args:
     executable: /bin/bash
-
-- name: Set system wide settings in profile file
-  blockinfile:
-    dest: /etc/profile.d/ansbile.sh
-    marker: "# {mark} ANSIBLE MANAGED BLOCK (betacloud.seed)"
-    block: |
-      source {{ venv_directory }}/bin/activate
-      export PS1='(ansible) \t \u@\H \W $ '
-    create: yes
-  become: true
 
 - name: Remove private role tarballs
   file:
