@@ -56,20 +56,18 @@
     mode: 0750
   become: true
 
-- name: Upgrade pip package
+- name: Prepare virtual environment
   pip:
     name: pip
-    state: latest
     virtualenv: "{{ venv_directory }}"
-  become: ansible_os_family == 'RedHat'
 
 - name: Install required packages in virtual environment
   shell: |
     source "{{ venv_directory }}/bin/activate"
+    pip install --upgrade pip
     pip install {{ item }}
   args:
     executable: /bin/bash
-  become: ansible_os_family == 'RedHat'
   with_items: "{{ python_requirements }}"
 
 - name: Install required ansible roles
