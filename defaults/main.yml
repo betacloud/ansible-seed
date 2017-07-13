@@ -68,11 +68,12 @@ ansible_roles_distro:
 python_requirements:
   - ansible>=2.3.0.0
   - ara>=0.13.3
-  - gilt-python
-  - jinja2==2.8.1
-  - shade
   - docker
   - docker-compose
+  - gilt-python
+  - jinja2==2.8.1
+  - pymysql
+  - shade
 
 # redhat/centos
 
