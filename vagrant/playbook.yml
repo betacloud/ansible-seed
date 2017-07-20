@@ -20,5 +20,5 @@
     include_vars: vars/vagrant.yml
 
   roles:
-  - role: betacloud.configuration
+  - role: osism.configuration
   - role: ../../ansible-seed

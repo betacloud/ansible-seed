@@ -1,7 +1,7 @@
 ---
 galaxy_info:
   author: Christian Berendt
-  description: This is an Ansible role that prepares a Betacloud seed node.
+  description: Role that prepares a OSISM seed node.
   company: Betacloud Solutions GmbH
   license: Apache License 2.0
   min_ansible_version: 2.2
@@ -15,5 +15,5 @@ galaxy_info:
   galaxy_tags:
   - system
   dependencies:
-  - name: betacloud.configuration
-    src: git+https://github.com/betacloud/ansible-configuration.git
+  - name: osism.configuration
+    src: git+https://github.com/osism/ansible-configuration.git

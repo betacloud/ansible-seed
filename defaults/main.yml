@@ -19,11 +19,11 @@ nexus_server: nexus-0.betacloud.io
 nexus_username: username
 
 nexus_roles:
-  - name: betacloud.bootstrap
+  - name: osism.bootstrap
     version: latest
-  - name: betacloud.betacloud
+  - name: osism.betacloud
     version: latest
-#  - name: betacloud.xenserver
+#  - name: osism.xenserver
 #    version: latest
 
 ansible_roles:
@@ -33,20 +33,20 @@ ansible_roles:
   - name: ANXS.hostname
     src: git+https://github.com/ANXS/hostname.git
     version: 4e5ece5a9ad39361fd6b0db02f07fa846d457f98
-  - name: betacloud.configuration
-    src: git+https://github.com/betacloud/ansible-configuration.git
+  - name: osism.configuration
+    src: git+https://github.com/osism/ansible-configuration.git
     version: master
-  - name: betacloud.docker
-    src: git+https://github.com/betacloud/ansible-docker.git
+  - name: osism.docker
+    src: git+https://github.com/osism/ansible-docker.git
     version: master
-  - name: betacloud.seed
-    src: git+https://github.com/betacloud/ansible-seed.git
+  - name: osism.seed
+    src: git+https://github.com/osism/ansible-seed.git
     version: master
-  - name: betacloud.proxy
-    src: git+https://github.com/betacloud/ansible-proxy.git
+  - name: osism.proxy
+    src: git+https://github.com/osism/ansible-proxy.git
     version: master
-  - name: betacloud.docker-cobbler
-    src: git+https://github.com/betacloud/ansible-docker-cobbler.git
+  - name: osism.cobbler
+    src: git+https://github.com/osism/ansible-cobbler.git
     version: master
 
 ansible_roles_distro:
