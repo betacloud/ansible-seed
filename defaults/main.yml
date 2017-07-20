@@ -19,9 +19,7 @@ nexus_server: nexus-0.betacloud.io
 nexus_username: username
 
 nexus_roles:
-  - name: osism.bootstrap
-    version: latest
-  - name: osism.betacloud
+  - name: osism.manager
     version: latest
 #  - name: osism.xenserver
 #    version: latest
@@ -47,6 +45,9 @@ ansible_roles:
     version: master
   - name: osism.cobbler
     src: git+https://github.com/osism/ansible-cobbler.git
+    version: master
+  - name: osism.bootstrap
+    src: git+https://github.com/osism/ansible-bootstrap.git
     version: master
 
 ansible_roles_distro:
