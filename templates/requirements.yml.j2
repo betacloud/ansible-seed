@@ -24,6 +24,6 @@
 
 {% for item in nexus_roles %}
 - name: {{ item.name }}
-  src: {{ ansible_roles_path }}/{{ item.name }}.tar.gz
+  src: {{ ansible_roles_directory }}/{{ item.name }}.tar.gz
 
 {% endfor %}

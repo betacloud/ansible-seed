@@ -22,7 +22,7 @@
     group: "{{ operator_user }}"
     mode: 0700
   with_items:
-    - "{{ ansible_roles_path }}"
+    - "{{ ansible_roles_directory }}"
     - "{{ cache_directory }}"
     - "{{ logs_directory }}"
     - "{{ secrets_directory }}"
@@ -31,7 +31,7 @@
 - name: Copy roles requirements file
   template:
     src: requirements.yml.j2
-    dest: "{{ ansible_roles_path }}/requirements.yml"
+    dest: "{{ ansible_roles_directory }}/requirements.yml"
     owner: "{{ operator_user }}"
     group: "{{ operator_user }}"
     mode: 0600
@@ -39,7 +39,7 @@
 - name: Download private role tarballs
   get_url:
     url: "https://{{ nexus_server }}/repository/{{ nexus_roles_repository }}/{{ item.name }}-{{ item.version }}.tar.gz"
-    dest: "{{ ansible_roles_path}}/{{ item.name }}.tar.gz"
+    dest: "{{ ansible_roles_directory }}/{{ item.name }}.tar.gz"
     mode: 0644
     url_username: "{{ nexus_username }}"
     url_password: "{{ nexus_password }}"
@@ -63,13 +63,13 @@
 
 - name: Install required ansible roles
   shell: |
-    ansible-galaxy install -f --ignore-errors -r {{ ansible_roles_path }}/requirements.yml
+    ansible-galaxy install -f --ignore-errors -r {{ ansible_roles_directory }}/requirements.yml
   args:
     executable: /bin/bash
 
 - name: Remove private role tarballs
   file:
-    path: "{{ ansible_roles_path}}/{{ item.name }}.tar.gz"
+    path: "{{ ansible_roles_directory }}/{{ item.name }}.tar.gz"
     state: absent
   with_items: "{{ nexus_roles }}"
 

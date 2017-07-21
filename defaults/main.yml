@@ -1,7 +1,7 @@
 ---
 # directories
 
-ansible_roles_path: /opt/ansible-galaxy
+ansible_roles_directory: /opt/ansible-galaxy
 cache_directory: /opt/ansible-cache
 logs_directory: /opt/ansible-logs
 secrets_directory: /opt/ansible-secrets
