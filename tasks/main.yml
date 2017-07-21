@@ -20,7 +20,7 @@
     state: directory
     owner: "{{ operator_user }}"
     group: "{{ operator_user }}"
-    mode: 0700
+    mode: 0750
   with_items:
     - "{{ ansible_roles_directory }}"
     - "{{ cache_directory }}"
