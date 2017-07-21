@@ -63,7 +63,7 @@
 
 - name: Install required ansible roles
   shell: |
-    ansible-galaxy install -f --ignore-errors -r {{ ansible_roles_directory }}/requirements.yml
+    ansible-galaxy install -f --ignore-errors -r {{ ansible_roles_directory }}/requirements.yml -p {{ ansible_roles_directory }}
   args:
     executable: /bin/bash
 
