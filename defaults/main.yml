@@ -83,23 +83,20 @@ ansible_roles_distro:
       src: git+https://github.com/ANXS/timezone.git
       version: 9a77595bf89fc2c255c7c36c18a9cb113911144d
 
-  RedHat: []
-
 ##########################
 # packages
 
-python_requirements:
-  - ansible>=2.3.0.0
-  - ara>=0.13.3
-  - docker
+python_requirements_seed:
+  - ara>=0.14.0
+
+required_packages_seed:
+  - ansible
   - docker-compose
-  - gilt-python
-  - jinja2==2.8.1
-  - pymysql
-  - shade
-
-##########################
-# redhat/centos
-
-repository_epel_baseurl: "https://download.fedoraproject.org/pub/epel/$releasever/$basearch/"
-repository_epel_gpgkey: "https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-7"
+  - expect
+  - git
+  - libffi-dev
+  - libssl-dev
+  - python-docker
+  - python-pip
+  - python-pymysql
+  - python-virtualenv
