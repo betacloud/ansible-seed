@@ -23,11 +23,7 @@ nexus_roles_repository: ansible
 nexus_server: nexus-0.betacloud.io
 nexus_username: username
 
-nexus_roles:
-  - name: osism.manager
-    version: latest
-#  - name: osism.xenserver
-#    version: latest
+nexus_roles: []
 
 ##########################
 # roles
@@ -59,6 +55,9 @@ ansible_roles:
     version: master
   - name: osism.helper
     src: git+https://github.com/osism/ansible-helper.git
+    version: master
+  - name: osism.repository
+    src: git+https://github.com/osism/ansible-repository.git
     version: master
 
 ansible_roles_distro:
