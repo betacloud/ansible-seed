@@ -4,7 +4,7 @@
     path: "{{ item }}"
     state: directory
     owner: "{{ operator_user }}"
-    group: "{{ operator_user }}"
+    group: "{{ operator_group }}"
     mode: 0750
   become: true
   with_items:
@@ -16,7 +16,7 @@
     dest: "{{ item.dest }}"
     mode: 0640
     owner: "{{ operator_user }}"
-    group: "{{ operator_user }}"
+    group: "{{ operator_group }}"
   with_items:
     - src: ara-server/ara.cfg.j2
       dest: "{{ ara_server_configuration_directory }}/ara.conf"

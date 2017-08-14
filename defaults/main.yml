@@ -16,8 +16,10 @@ share_ceph_directory: /opt/share/ceph
 share_kolla_directory: /opt/share/kolla
 
 ##########################
-# keys
+# operator user
 
+operator_user: "{{ ansible_user }}"
+operator_group: "{{ operator_user }}"
 operator_private_key: |
   -----BEGIN RSA PRIVATE KEY-----
   ...
@@ -70,6 +72,9 @@ ansible_roles:
   - name: osism.mirror
     src: git+https://github.com/osism/ansible-mirror.git
     version: master
+  - name: osism.operator
+    src: git+https://github.com/osism/ansible-operator.git
+    version: master
 
 ansible_roles_distro:
   Debian:
@@ -100,15 +105,6 @@ required_packages_seed:
   - docker-compose
   - git
   - python-docker
-
-##########################
-# operator user
-
-operator_authorized_keys: []
-operator_user: dragon
-
-# NOTE: Use "mkpasswd --method=sha-512" to generate a password
-# operator_password:
 
 ##########################
 # ansible helper

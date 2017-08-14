@@ -7,9 +7,6 @@
 - name: Include distribution specific tasks
   include: "{{ ansible_os_family }}.yml"
 
-- name: Create operator user
-  include: operator.yml
-
 - name: Install required packages
   package:
     name: "{{ item }}"
@@ -22,7 +19,7 @@
     path: "{{ item }}"
     state: directory
     owner: "{{ operator_user }}"
-    group: "{{ operator_user }}"
+    group: "{{ operator_group }}"
     mode: 0750
   with_items:
     - "{{ ansible_roles_directory }}"
