@@ -7,13 +7,12 @@ docker_registry: index.docker.io
 ##########################
 # directories
 
+ansible_directory: /opt/ansible
 ansible_roles_directory: /opt/ansible/galaxy
 cache_directory: /opt/ansible/cache
 configuration_directory: /opt/configuration
 logs_directory: /opt/ansible/logs
 secrets_directory: /opt/ansible/secrets
-share_ceph_directory: /opt/share/ceph
-share_kolla_directory: /opt/share/kolla
 
 ##########################
 # operator user

@@ -26,6 +26,7 @@
 
 - name: Playbook for role testing
   hosts: all
+  connection: paramiko
 
   roles:
   - role: ansible-seed

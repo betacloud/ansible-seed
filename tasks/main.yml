@@ -22,12 +22,8 @@
     group: "{{ operator_group }}"
     mode: 0750
   with_items:
-    - "{{ ansible_roles_directory }}"
-    - "{{ cache_directory }}"
-    - "{{ logs_directory }}"
+    - "{{ ansible_directory }}"
     - "{{ secrets_directory }}"
-    - "{{ share_ceph_directory }}"
-    - "{{ share_kolla_directory }}"
   become: true
 
 - name: Prepare service

@@ -1,12 +1,4 @@
 ---
-- name: Copy roles requirements file
-  template:
-    src: requirements.yml.j2
-    dest: "{{ ansible_roles_directory }}/requirements.yml"
-    owner: "{{ operator_user }}"
-    group: "{{ operator_group }}"
-    mode: 0640
-
 - name: Download private role tarballs
   get_url:
     url: "https://{{ nexus_server }}/repository/{{ nexus_roles_repository }}/{{ item.name }}-{{ item.version }}.tar.gz"
@@ -20,7 +12,7 @@
 
 - name: Install required ansible roles
   shell: |
-    docker exec -t {{ helper_container_name }} ansible-galaxy install -f --ignore-errors -r {{ ansible_roles_directory }}/requirements.yml -p {{ ansible_roles_directory }}
+    docker exec -t {{ helper_container_name }} ansible-galaxy install -f --ignore-errors -r {{ ansible_directory }}/requirements.yml -p {{ ansible_roles_directory }}
   args:
     executable: /bin/bash
 
