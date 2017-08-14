@@ -1,11 +1,19 @@
 ---
 ##########################
+# docker
+
+docker_registry: index.docker.io
+
+##########################
 # directories
 
 ansible_roles_directory: /opt/ansible/galaxy
 cache_directory: /opt/ansible/cache
+configuration_directory: /opt/configuration
 logs_directory: /opt/ansible/logs
 secrets_directory: /opt/ansible/secrets
+share_ceph_directory: /opt/share/ceph
+share_kolla_directory: /opt/share/kolla
 
 ##########################
 # keys
@@ -88,20 +96,10 @@ ansible_roles_distro:
 ##########################
 # packages
 
-python_requirements_seed:
-  - ara>=0.14.0
-
 required_packages_seed:
-  - ansible
   - docker-compose
-  - expect
   - git
-  - libffi-dev
-  - libssl-dev
   - python-docker
-  - python-pip
-  - python-pymysql
-  - python-virtualenv
 
 ##########################
 # operator user
@@ -111,3 +109,35 @@ operator_user: dragon
 
 # NOTE: Use "mkpasswd --method=sha-512" to generate a password
 # operator_password:
+
+##########################
+# ansible helper
+
+helper_host: "{{ ansible_default_ipv4.address }}"
+helper_container_name: manager_helper_1
+
+helper_version: 1.0.0
+helper_docker_image: "{{ docker_registry }}/osism/helper:{{ helper_version }}"
+
+##########################
+# ara server
+
+ara_server_host: "{{ ansible_default_ipv4.address }}"
+ara_server_port: 9191
+
+ara_server_configuration_directory: /opt/ara/configuration
+
+ara_server_version: 0.14.0
+ara_server_docker_image: "{{ docker_registry }}/osism/ara-server:{{ ara_server_version }}"
+
+# mariadb (used by ara)
+
+ara_server_mariadb_host: "{{ ansible_default_ipv4.address }}"
+ara_server_mariadb_port: 3306
+
+ara_server_mariadb_username: ara
+ara_server_mariadb_password: password
+ara_server_mariadb_databasename: "{{ ara_server_mariadb_username }}"
+
+mariadb_version: 10.3.0
+mariadb_docker_image: "{{ docker_registry }}/mariadb:{{ mariadb_version }}"

@@ -1,6 +1,0 @@
----
-configuration_type: git
-configuration_git_repository: https://github.com/osism/configuration-template
-configuration_git_version: master
-
-nexus_roles: []

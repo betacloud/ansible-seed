@@ -1,0 +1,39 @@
+---
+- name: Copy roles requirements file
+  template:
+    src: requirements.yml.j2
+    dest: "{{ ansible_roles_directory }}/requirements.yml"
+    owner: "{{ operator_user }}"
+    group: "{{ operator_user }}"
+    mode: 0600
+
+- name: Download private role tarballs
+  get_url:
+    url: "https://{{ nexus_server }}/repository/{{ nexus_roles_repository }}/{{ item.name }}-{{ item.version }}.tar.gz"
+    dest: "{{ ansible_roles_directory }}/{{ item.name }}.tar.gz"
+    mode: 0644
+    url_username: "{{ nexus_username }}"
+    url_password: "{{ nexus_password }}"
+    force_basic_auth: yes
+  with_items: "{{ nexus_roles }}"
+  ignore_errors: yes
+
+- name: Install required ansible roles
+  shell: |
+    docker exec -t {{ helper_container_name }} ansible-galaxy install -f --ignore-errors -r {{ ansible_roles_directory }}/requirements.yml -p {{ ansible_roles_directory }}
+  args:
+    executable: /bin/bash
+
+- name: Remove private role tarballs
+  file:
+    path: "{{ ansible_roles_directory }}/{{ item.name }}.tar.gz"
+    state: absent
+  with_items: "{{ nexus_roles }}"
+
+- name: Copy private SSH key
+  copy:
+    content: "{{ operator_private_key }}"
+    dest: "{{ secrets_directory }}/id_rsa.operator"
+    owner: "{{ operator_user }}"
+    mode: 0600
+  become: true

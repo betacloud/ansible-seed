@@ -11,13 +11,21 @@
     changed_when: result.rc != 0
     become: true
 
-- name: Playbook for role testing
+- name: Playbook for preparations
   hosts: all
 
-  pre_tasks:
-  - name: Include molecule variables
-    include_vars: vars/molecule.yml
+  vars:
+    configuration_git_private_key: ""
+    configuration_type: git
+    configuration_git_repository: https://github.com/osism/vagrant-environment
+    configuration_git_version: master
 
   roles:
   - role: osism.configuration
+  - role: osism.docker
+
+- name: Playbook for role testing
+  hosts: all
+
+  roles:
   - role: ansible-seed
