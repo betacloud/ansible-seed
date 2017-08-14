@@ -7,6 +7,9 @@
 - name: Include distribution specific tasks
   include: "{{ ansible_os_family }}.yml"
 
+- name: Create operator user
+  include: operator.yml
+
 - name: Install required packages
   package:
     name: "{{ item }}"

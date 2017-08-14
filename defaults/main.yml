@@ -99,3 +99,12 @@ required_packages_seed:
   - python-pip
   - python-pymysql
   - python-virtualenv
+
+##########################
+# operator user
+
+operator_authorized_keys: []
+operator_user: dragon
+
+# NOTE: Use "mkpasswd --method=sha-512" to generate a password
+# operator_password:
