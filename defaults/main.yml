@@ -59,6 +59,9 @@ ansible_roles:
   - name: osism.repository
     src: git+https://github.com/osism/ansible-repository.git
     version: master
+  - name: osism.mirror
+    src: git+https://github.com/osism/ansible-mirror.git
+    version: master
 
 ansible_roles_distro:
   Debian:
