@@ -78,8 +78,8 @@
 
 - name: Copy private SSH key
   copy:
-    content: "{{ kolla_private_key }}"
-    dest: "{{ secrets_directory }}/id_rsa.kolla"
+    content: "{{ operator_private_key }}"
+    dest: "{{ secrets_directory }}/id_rsa.operator"
     owner: "{{ operator_user }}"
     mode: 0600
   become: true

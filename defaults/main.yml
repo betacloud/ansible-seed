@@ -10,7 +10,7 @@ secrets_directory: /opt/ansible/secrets
 ##########################
 # keys
 
-kolla_private_key: |
+operator_private_key: |
   -----BEGIN RSA PRIVATE KEY-----
   ...
   -----END RSA PRIVATE KEY-----
