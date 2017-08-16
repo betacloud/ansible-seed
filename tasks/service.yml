@@ -23,6 +23,19 @@
     - src: ara-server/ara.cfg.j2
       dest: "{{ ara_server_configuration_directory }}/ara.conf"
 
+- name: Copy wrapper scripts
+  template:
+    src: "wrapper/{{ item }}.j2"
+    dest: "/usr/local/bin/{{ item }}"
+    mode: 0755
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+  become: true
+  with_items:
+    - osism-ceph
+    - osism-kolla
+    - osism-run
+
 - name: Run service
   docker_service:
     project_name: manager
