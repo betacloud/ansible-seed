@@ -49,14 +49,14 @@
           extra_hosts:
             - "osism:{{ helper_host }}"
           volumes:
-            - "osism_galaxy:{{ ansible_roles_directory }}"
+            - "galaxy:{{ ansible_roles_directory }}"
             - "{{ ansible_directory }}/requirements.yml:{{ ansible_directory }}/requirements.yml"
-            - "osism_cache:{{ cache_directory }}"
+            - "cache:{{ cache_directory }}"
             - "{{ configuration_directory }}:{{ configuration_directory }}:ro"
-            - "osism_logs:{{ logs_directory }}"
+            - "logs:{{ logs_directory }}"
             - "{{ secrets_directory }}:{{ secrets_directory }}:ro"
-            - "osism_share_ceph:/ceph"
-            - "osism_share_kolla:/kolla"
+            - "share_ceph:/ceph"
+            - "share_kolla:/kolla"
             - "/etc/hosts:/etc/hosts:ro"
           depends_on:
             - database
@@ -86,11 +86,11 @@
             MYSQL_RANDOM_ROOT_PASSWORD: "yes"
             MYSQL_USER: "{{ ara_server_mariadb_username }}"
           volumes:
-            - "osism_mariadb:/var/lib/mysql"
+            - "mariadb:/var/lib/mysql"
       volumes:
-        osism_cache:
-        osism_galaxy:
-        osism_logs:
-        osism_mariadb:
-        osism_share_ceph:
-        osism_share_kolla:
+        cache:
+        galaxy:
+        logs:
+        mariadb:
+        share_ceph:
+        share_kolla:
