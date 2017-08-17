@@ -58,6 +58,7 @@
             - "share_ceph:/ceph"
             - "share_kolla:/kolla"
             - "/etc/hosts:/etc/hosts:ro"
+            - /var/run/docker.sock:/var/run/docker.sock
           depends_on:
             - database
           links:
