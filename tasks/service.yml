@@ -18,8 +18,6 @@
     owner: "{{ operator_user }}"
     group: "{{ operator_group }}"
   with_items:
-    - src: helper/requirements.yml.j2
-      dest: "{{ ansible_directory }}/requirements.yml"
     - src: ara-server/ara.cfg.j2
       dest: "{{ ara_server_configuration_directory }}/ara.conf"
 
@@ -49,8 +47,6 @@
           extra_hosts:
             - "osism:{{ helper_host }}"
           volumes:
-            - "galaxy:{{ ansible_roles_directory }}"
-            - "{{ ansible_directory }}/requirements.yml:{{ ansible_directory }}/requirements.yml"
             - "cache:{{ cache_directory }}"
             - "{{ configuration_directory }}:{{ configuration_directory }}:ro"
             - "logs:{{ logs_directory }}"

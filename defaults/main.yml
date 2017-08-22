@@ -8,7 +8,6 @@ docker_registry: index.docker.io
 # directories
 
 ansible_directory: /opt/ansible
-ansible_roles_directory: /opt/ansible/galaxy
 cache_directory: /opt/ansible/cache
 configuration_directory: /opt/configuration
 logs_directory: /opt/ansible/logs
@@ -26,82 +25,6 @@ operator_private_key: |
 
 private_keys:
   operator: "{{ operator_private_key }}"
-
-##########################
-# nexus
-
-nexus_password: password
-nexus_roles_repository: ansible
-nexus_server: nexus-0.betacloud.io
-nexus_username: username
-
-nexus_roles: []
-
-##########################
-# roles
-
-ansible_roles:
-  - name: hardening
-    src: git+https://github.com/openstack/ansible-hardening.git
-    version: 15.1.3
-  - name: osism.configuration
-    src: git+https://github.com/osism/ansible-configuration.git
-    version: master
-  - name: osism.docker
-    src: git+https://github.com/osism/ansible-docker.git
-    version: master
-  - name: osism.seed
-    src: git+https://github.com/osism/ansible-seed.git
-    version: master
-  - name: osism.proxy
-    src: git+https://github.com/osism/ansible-proxy.git
-    version: master
-  - name: osism.cobbler
-    src: git+https://github.com/osism/ansible-cobbler.git
-    version: master
-  - name: osism.bootstrap
-    src: git+https://github.com/osism/ansible-bootstrap.git
-    version: master
-  - name: osism.helper
-    src: git+https://github.com/osism/ansible-helper.git
-    version: master
-  - name: osism.repository
-    src: git+https://github.com/osism/ansible-repository.git
-    version: master
-  - name: osism.mirror
-    src: git+https://github.com/osism/ansible-mirror.git
-    version: master
-  - name: osism.operator
-    src: git+https://github.com/osism/ansible-operator.git
-    version: master
-  - name: osism.hostname
-    src: git+https://github.com/osism/ansible-hostname.git
-    version: master
-  - name: osism.hosts
-    src: git+https://github.com/osism/ansible-hosts.git
-    version: master
-
-ansible_roles_distro:
-  Debian:
-    - name: network-interfaces
-      src: git+https://github.com/dresden-weekly/ansible-network-interfaces.git
-      version: 223cd51d68e5a260663d03573b7ae1f3d368a560
-
-    - name: debops.grub
-      src: git+https://github.com/debops/ansible-grub.git
-      version: 98fef89251f5843eba35159c19219045267cd5d3
-
-    - name: ANXS.apt
-      src: git+https://github.com/ANXS/apt.git
-      version: 0c544ce34d193096d43fd828afea54e2a7c091df
-
-    - name: ANXS.utilities
-      src: git+https://github.com/ANXS/utilities.git
-      version: b078b43445c52231d9925fdcad42e2e7e5ac9dcd
-
-    - name: ANXS.timezone
-      src: git+https://github.com/ANXS/timezone.git
-      version: 9a77595bf89fc2c255c7c36c18a9cb113911144d
 
 ##########################
 # packages
