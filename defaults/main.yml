@@ -44,9 +44,6 @@ ansible_roles:
   - name: hardening
     src: git+https://github.com/openstack/ansible-hardening.git
     version: 15.1.3
-  - name: ANXS.hostname
-    src: git+https://github.com/ANXS/hostname.git
-    version: 4e5ece5a9ad39361fd6b0db02f07fa846d457f98
   - name: osism.configuration
     src: git+https://github.com/osism/ansible-configuration.git
     version: master
@@ -76,6 +73,12 @@ ansible_roles:
     version: master
   - name: osism.operator
     src: git+https://github.com/osism/ansible-operator.git
+    version: master
+  - name: osism.hostname
+    src: git+https://github.com/osism/ansible-hostname.git
+    version: master
+  - name: osism.hosts
+    src: git+https://github.com/osism/ansible-hosts.git
     version: master
 
 ansible_roles_distro:
