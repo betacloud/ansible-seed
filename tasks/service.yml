@@ -33,6 +33,8 @@
     - osism-ceph
     - osism-kolla
     - osism-run
+    - osism-generic
+    - osism-infrastructure
 
 - name: Run service
   docker_service:
