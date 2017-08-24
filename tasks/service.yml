@@ -38,7 +38,7 @@
 
 - name: Run service
   docker_service:
-    project_name: manager
+    project_name: helper
     definition:
       version: '2'
       services:

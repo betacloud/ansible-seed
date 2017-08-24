@@ -38,7 +38,7 @@ required_packages_seed:
 # ansible helper
 
 helper_host: "{{ ansible_default_ipv4.address }}"
-helper_container_name: manager_helper_1
+helper_container_name: helper_helper_1
 
 helper_version: 1.0.0
 helper_docker_image: "{{ docker_registry }}/osism/helper:{{ helper_version }}"
