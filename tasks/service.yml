@@ -44,7 +44,7 @@
       services:
         helper:
           restart: unless-stopped
-          image: "{{ helper_docker_image }}"
+          image: "{{ helper_image }}"
           entrypoint: sleep infinity
           extra_hosts:
             - "osism:{{ helper_host }}"
@@ -63,7 +63,7 @@
             - database
         ara-server:
           restart: unless-stopped
-          image: "{{ ara_server_docker_image }}"
+          image: "{{ ara_server_image }}"
           environment:
             ARA_CONFIG: /ara.cfg
             ARA_DATABASE: "mysql+pymysql://{{ ara_server_mariadb_username }}:{{ ara_server_mariadb_password }}@database/{{ ara_server_mariadb_databasename }}"
@@ -78,7 +78,7 @@
             - database
         database:
           restart: unless-stopped
-          image: "{{ mariadb_docker_image }}"
+          image: "{{ mariadb_image }}"
           environment:
             MYSQL_DATABASE: "{{ ara_server_mariadb_databasename }}"
             MYSQL_PASSWORD: "{{ ara_server_mariadb_password }}"
