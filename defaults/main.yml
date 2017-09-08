@@ -47,7 +47,7 @@ helper_image: "{{ docker_registry }}/osism/helper:{{ helper_tag }}"
 # ara server
 
 ara_server_host: "{{ ansible_default_ipv4.address }}"
-ara_server_port: 9191
+ara_server_port: 8120
 
 ara_server_configuration_directory: /opt/ara/configuration
 
