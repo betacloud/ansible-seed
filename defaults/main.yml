@@ -16,7 +16,7 @@ secrets_directory: /opt/ansible/secrets
 ##########################
 # operator user
 
-operator_user: "{{ ansible_user }}"
+operator_user: dragon
 operator_group: "{{ operator_user }}"
 operator_private_key: |
   -----BEGIN RSA PRIVATE KEY-----

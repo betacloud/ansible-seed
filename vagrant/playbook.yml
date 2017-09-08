@@ -1,5 +1,3 @@
-# This file is subject to the terms and conditions defined in file 'LICENSE',
-# which is part of this repository.
 ---
 - name: Install python version 2 on ubuntu
   hosts: all
@@ -18,16 +16,16 @@
   vars:
     configuration_git_private_key: ""
     configuration_type: git
-    configuration_git_repository: https://github.com/osism/vagrant-environment
+    configuration_git_repository: https://github.com/osism/ansible-seed
     configuration_git_version: master
 
   roles:
-  - role: osism.configuration
-  - role: osism.docker
+    - role: osism.configuration
+    - role: osism.docker
 
 - name: Playbook for role testing
   hosts: all
   connection: paramiko
 
   roles:
-  - role: ../../ansible-seed
+    - role: ../../ansible-seed
