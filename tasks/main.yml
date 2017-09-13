@@ -5,7 +5,7 @@
   package:
     name: "{{ item }}"
     state: present
-  with_items: "{{ required_packages_seed }}"
+  with_items: "{{ required_packages_manager }}"
   become: true
 
 - name: Create required directories

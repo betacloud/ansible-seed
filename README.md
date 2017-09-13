@@ -1,6 +1,6 @@
-# Ansible osism.seed
+# Ansible osism.manager
 
-[![Ansible Galaxy](https://img.shields.io/badge/Ansible%20Galaxy-osism.seed-blue.svg)](https://galaxy.ansible.com/osism/seed/)
+[![Ansible Galaxy](https://img.shields.io/badge/Ansible%20Galaxy-osism.manager-blue.svg)](https://galaxy.ansible.com/osism/manager/)
 ![Ansible 2.2](https://img.shields.io/badge/Ansible-2.2-green.png?style=flat)
 ![Ansible 2.3](https://img.shields.io/badge/Ansible-2.3-green.png?style=flat)
 

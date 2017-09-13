@@ -1,7 +1,7 @@
 ---
 galaxy_info:
   author: Christian Berendt
-  description: Role osism.seed
+  description: Role osism.manager
   company: Betacloud Solutions GmbH
   license: Apache License 2.0
   min_ansible_version: 2.2
@@ -11,10 +11,4 @@ galaxy_info:
         - xenial
   galaxy_tags:
     - system
-  dependencies:
-    - name: osism.configuration
-      src: git+https://github.com/osism/ansible-configuration.git
-    - name: osism.docker
-      src: git+https://github.com/osism/ansible-docker.git
-    - name: osism.operator
-      src: git+https://github.com/osism/ansible-operator.git
+dependencies: []

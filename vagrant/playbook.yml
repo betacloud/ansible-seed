@@ -16,7 +16,7 @@
   vars:
     configuration_git_private_key: ""
     configuration_type: git
-    configuration_git_repository: https://github.com/osism/ansible-seed
+    configuration_git_repository: https://github.com/osism/ansible-manager
     configuration_git_version: master
 
   roles:
@@ -28,4 +28,4 @@
   connection: paramiko
 
   roles:
-    - role: ../../ansible-seed
+    - role: ../../ansible-manager
