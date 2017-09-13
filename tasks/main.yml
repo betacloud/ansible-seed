@@ -20,8 +20,11 @@
     - "{{ secrets_directory }}"
   become: true
 
-- name: Prepare service
+- name: Include service tasks
   include: service.yml
 
-- name: Prepare ansible environment
+- name: Include ansible tasks
   include: ansible.yml
+
+- name: Include wrapper scripts tasks
+  include: wrapper.yml
