@@ -21,6 +21,10 @@ if [[ $mirror == "images" ]]; then
     osism-infrastructure mirror-images -e docker_images_file=$ENVIRONMENTS_DIRECTORY/ceph/images.yml -e osism_version=$OSISM_VERSION
     osism-infrastructure mirror-images -e docker_images_file=$ENVIRONMENTS_DIRECTORY/kolla/images.yml -e osism_version=$OSISM_VERSION
     osism-infrastructure mirror-images -e docker_images_file=$ENVIRONMENTS_DIRECTORY/openstack/images.yml -e osism_version=$OSISM_VERSION
+elif [[ $mirror == "files" ]]; then
+    osism-infrastructure mirror-files
+elif [[ $mirror == "repositories" ]]; then
+    osism-infrastructure mirror-repositories
 elif [[ $mirror == "packages" ]]; then
     osism-infrastructure mirror-packages -e osism_version=$OSISM_VERSION
 
