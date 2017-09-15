@@ -1,5 +1,5 @@
 ---
-- name: Copy wrapper scripts
+- name: wrapper - copy scripts
   template:
     src: "wrapper/{{ item }}.j2"
     dest: "/usr/local/bin/{{ item }}"

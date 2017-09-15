@@ -1,5 +1,5 @@
 ---
-- name: Copy private ssh keys
+- name: ansible - copy private ssh keys
   copy:
     content: "{{ item.value }}"
     dest: "{{ secrets_directory }}/id_rsa.{{ item.key }}"
