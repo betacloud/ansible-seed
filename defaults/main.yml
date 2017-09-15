@@ -64,7 +64,7 @@ ara_server_mariadb_password: password
 ara_server_mariadb_databasename: "{{ ara_server_mariadb_username }}"
 
 mariadb_tag: 10.3.0
-mariadb_image: "{{ docker_registry }}/mariadb:{{ mariadb_tag }}"
+mariadb_image: "{{ docker_registry }}/library/mariadb:{{ mariadb_tag }}"
 
 ##########################
 # wrapper
