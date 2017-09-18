@@ -1,5 +1,5 @@
 ---
-- name: service - create required directories
+- name: helper - create required directories
   file:
     path: "{{ item }}"
     state: directory
@@ -10,7 +10,7 @@
   with_items:
     - "{{ ara_server_configuration_directory }}"
 
-- name: service - copy configuration files
+- name: helper - copy configuration files
   template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
@@ -21,7 +21,7 @@
     - src: ara-server/ara.cfg.j2
       dest: "{{ ara_server_configuration_directory }}/ara.conf"
 
-- name: service - run service
+- name: helper - run service
   docker_service:
     project_name: helper
     definition:
