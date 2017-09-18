@@ -35,6 +35,6 @@ elif [[ $mirror == "packages" ]]; then
     echo
     echo       docker run --entrypoint /usr/bin/aptly -v /opt/aptly/configuration/aptly.conf:/etc/aptly.conf -v aptly_database:/opt/aptly/db -v aptly_storage:/opt/aptly -it $APTLY_IMAGE:$APTLY_TAG publish snapshot node-$OSISM_VERSION node-$OSISM_VERSION
 else
-    echo MIRROR has to be 'images' or 'packages'
+    echo MIRROR has to be 'images' or 'packages' or 'files'
     exit
 fi
