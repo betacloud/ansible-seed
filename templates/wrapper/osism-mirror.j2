@@ -9,31 +9,33 @@ mirror=$1
 shift
 
 ENVIRONMENTS_DIRECTORY={{ configuration_directory }}/environments
-OSISM_VERSION=$(grep osism_version: $ENVIRONMENTS_DIRECTORY/configuration.yml | sed -e 's/.*: \(.*\)/\1/')
+REPOSITORY_VERSION=$(grep repository_version: $ENVIRONMENTS_DIRECTORY/configuration.yml | sed -e 's/.*: \(.*\)/\1/')
 
 APTLY_IMAGE=osism/aptly
 APTLY_TAG=1.1.1
 
 if [[ $mirror == "images" ]]; then
-    osism-infrastructure mirror-images -e docker_images_file=$ENVIRONMENTS_DIRECTORY/generic/images.yml -e osism_version=$OSISM_VERSION
-    osism-infrastructure mirror-images -e docker_images_file=$ENVIRONMENTS_DIRECTORY/manager/images.yml -e osism_version=$OSISM_VERSION
-    osism-infrastructure mirror-images -e docker_images_file=$ENVIRONMENTS_DIRECTORY/infrastructure/images.yml -e osism_version=$OSISM_VERSION
-    osism-infrastructure mirror-images -e docker_images_file=$ENVIRONMENTS_DIRECTORY/ceph/images.yml -e osism_version=$OSISM_VERSION
-    osism-infrastructure mirror-images -e docker_images_file=$ENVIRONMENTS_DIRECTORY/kolla/images.yml -e osism_version=$OSISM_VERSION
-    osism-infrastructure mirror-images -e docker_images_file=$ENVIRONMENTS_DIRECTORY/openstack/images.yml -e osism_version=$OSISM_VERSION
+    osism-infrastructure mirror-images -e docker_images_file=/ansible/images-ceph.yml -e repository_version=$REPOSITORY_VERSION
+    osismeminfrastructure mirror-images -e docker_images_file=/ansible/images-openstack.yml -e repository_version=$REPOSITORY_VERSION
+    osism-infrastructure mirror-images -e docker_images_file=$ENVIRONMENTS_DIRECTORY/generic/images.yml -e repository_version=$REPOSITORY_VERSION
+    osism-infrastructure mirror-images -e docker_images_file=$ENVIRONMENTS_DIRECTORY/manager/images.yml -e repository_version=$REPOSITORY_VERSION
+    osism-infrastructure mirror-images -e docker_images_file=$ENVIRONMENTS_DIRECTORY/infrastructure/images.yml -e repository_version=$REPOSITORY_VERSION
+    osism-infrastructure mirror-images -e docker_images_file=$ENVIRONMENTS_DIRECTORY/ceph/images.yml -e repository_version=$REPOSITORY_VERSION
+    osism-infrastructure mirror-images -e docker_images_file=$ENVIRONMENTS_DIRECTORY/kolla/images.yml -e repository_version=$REPOSITORY_VERSION
+    osism-infrastructure mirror-images -e docker_images_file=$ENVIRONMENTS_DIRECTORY/openstack/images.yml -e repository_version=$REPOSITORY_VERSION
 elif [[ $mirror == "files" ]]; then
     osism-infrastructure mirror-files
 elif [[ $mirror == "repositories" ]]; then
     osism-infrastructure mirror-repositories
 elif [[ $mirror == "packages" ]]; then
-    osism-infrastructure mirror-packages -e osism_version=$OSISM_VERSION
+    osism-infrastructure mirror-packages -e repository_version=$REPOSITORY_VERSION
 
     echo
     echo NOTE: The publish step is not automated because it is required to enter the GPG password.
     echo
     echo       Run the following command on the mirror node. If necessary, adjust the Docker image accordingly.
     echo
-    echo       docker run --entrypoint /usr/bin/aptly -v /opt/aptly/configuration/aptly.conf:/etc/aptly.conf -v aptly_database:/opt/aptly/db -v aptly_storage:/opt/aptly -it $APTLY_IMAGE:$APTLY_TAG publish snapshot node-$OSISM_VERSION node-$OSISM_VERSION
+    echo       docker run --entrypoint /usr/bin/aptly -v /opt/aptly/configuration/aptly.conf:/etc/aptly.conf -v aptly_database:/opt/aptly/db -v aptly_storage:/opt/aptly -it $APTLY_IMAGE:$APTLY_TAG publish snapshot node-$REPOSITORY_VERSION node-$REPOSITORY_VERSION
 else
     echo MIRROR has to be 'images' or 'packages' or 'files'
     exit
