@@ -43,6 +43,9 @@ helper_container_name: helper_helper_1
 helper_tag: 1.0.0
 helper_image: "{{ docker_registry }}/osism/helper:{{ helper_tag }}"
 
+redis_tag: latest
+redis_image: "{{ docker_registry }}/library/redis:{{ redis_tag }}"
+
 ##########################
 # ara server
 
