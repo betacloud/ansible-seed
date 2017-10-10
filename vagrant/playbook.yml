@@ -1,10 +1,10 @@
 ---
-- name: Install python version 2 on ubuntu
+- name: Install python2
   hosts: all
   gather_facts: no
 
   tasks:
-  - name: Install python version 2 on ubuntu
+  - name: Install python2
     raw: test -e /usr/bin/python || (test -e /usr/bin/apt && (apt -y update && apt install -y python-minimal))
     register: result
     changed_when: result.rc != 0
@@ -14,18 +14,25 @@
   hosts: all
 
   vars:
-    configuration_git_private_key: ""
-    configuration_type: git
-    configuration_git_repository: https://github.com/osism/ansible-manager
-    configuration_git_version: master
+    docker_user: ubuntu
+    operator_group: ubuntu
+    operator_group_id: 1000
+    operator_user: ubuntu
+    operator_user_id: 1000
 
   roles:
+    - role: osism.operator
     - role: osism.configuration
     - role: osism.docker
 
 - name: Playbook for role testing
   hosts: all
   connection: paramiko
+
+  vars:
+    docker_user: ubuntu
+    operator_group: ubuntu
+    operator_user: ubuntu
 
   roles:
     - role: ../../ansible-manager
