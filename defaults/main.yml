@@ -40,7 +40,7 @@ required_packages_manager:
 helper_host: "{{ ansible_default_ipv4.address }}"
 helper_container_name: helper_helper_1
 
-helper_tag: 1.0.0
+helper_tag: latest
 helper_image: "{{ docker_registry }}/osism/helper:{{ helper_tag }}"
 
 redis_tag: latest
@@ -54,7 +54,7 @@ ara_server_port: 8120
 
 ara_server_configuration_directory: /opt/ara/configuration
 
-ara_server_tag: 0.14.0
+ara_server_tag: latest
 ara_server_image: "{{ docker_registry }}/osism/ara-server:{{ ara_server_tag }}"
 
 # mariadb (used by ara)
@@ -66,7 +66,7 @@ ara_server_mariadb_username: ara
 ara_server_mariadb_password: password
 ara_server_mariadb_databasename: "{{ ara_server_mariadb_username }}"
 
-mariadb_tag: 10.3.0
+mariadb_tag: latest
 mariadb_image: "{{ docker_registry }}/library/mariadb:{{ mariadb_tag }}"
 
 ##########################
