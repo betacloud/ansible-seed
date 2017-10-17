@@ -73,6 +73,7 @@ mariadb_image: "{{ docker_registry }}/library/mariadb:{{ mariadb_tag }}"
 # wrapper
 
 wrapper_scripts:
+  - osism-ansible
   - osism-ceph
   - osism-generic
   - osism-infrastructure
