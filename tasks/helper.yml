@@ -21,6 +21,17 @@
     - src: ara-server/ara.cfg.j2
       dest: "{{ ara_server_configuration_directory }}/ara.conf"
 
+- name: helper - pull images
+  docker_image:
+    name: "{{ item }}"
+    pull: yes
+    force: yes
+  with_items:
+    - "{{ ara_server_image }}"
+    - "{{ helper_image }}"
+    - "{{ mariadb_image }}"
+    - "{{ redis_image }}"
+
 - name: helper - run service
   docker_service:
     project_name: helper
