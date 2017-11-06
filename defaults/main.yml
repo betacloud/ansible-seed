@@ -79,4 +79,5 @@ wrapper_scripts:
   - osism-infrastructure
   - osism-kolla
   - osism-mirror
+  - osism-monitoring
   - osism-run
