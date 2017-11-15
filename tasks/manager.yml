@@ -1,0 +1,37 @@
+---
+- name: manager - create required directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+    mode: 0750
+  become: true
+  with_items:
+    - "{{ manager_docker_compose_directory }}"
+    - "{{ manager_configuration_directory }}"
+
+- name: manager - copy configuration files
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: 0640
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+  with_items:
+    - src: ara-server/ara.cfg.j2
+      dest: "{{ manager_configuration_directory }}/ara.conf"
+
+- name: manager - copy docker-compose.yml file
+  template:
+    src: docker-compose.yml.j2
+    dest: "{{ manager_docker_compose_directory }}/docker-compose.yml"
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+    mode: 0640
+
+- name: manager - run service
+  docker_service:
+    project_name: manager
+    project_src: "{{ manager_docker_compose_directory }}"
+    pull: yes

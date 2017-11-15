@@ -13,6 +13,9 @@ configuration_directory: /opt/configuration
 logs_directory: /opt/ansible/logs
 secrets_directory: /opt/ansible/secrets
 
+manager_docker_compose_directory: /opt/manager
+manager_configuration_directory: /opt/manager/configuration
+
 ##########################
 # operator user
 
@@ -38,7 +41,7 @@ required_packages_manager:
 # ansible helper
 
 helper_host: "{{ ansible_default_ipv4.address }}"
-helper_container_name: helper_helper_1
+helper_container_name: manager_helper_1
 
 helper_tag: latest
 helper_image: "{{ docker_registry }}/osism/helper:{{ helper_tag }}"

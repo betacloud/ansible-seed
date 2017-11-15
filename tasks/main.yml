@@ -1,5 +1,3 @@
-# This file is subject to the terms and conditions defined in file 'LICENSE',
-# which is part of this repository.
 ---
 - name: Install required packages
   package:
@@ -20,8 +18,8 @@
     - "{{ secrets_directory }}"
   become: true
 
-- name: helper - include tasks
-  include: helper.yml
+- name: manager - include tasks
+  include: manager.yml
 
 - name: ansible - include tasks
   include: ansible.yml
