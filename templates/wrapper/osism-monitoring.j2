@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-docker exec -i {{ helper_container_name }} /monitoring.sh $*
+docker exec -i {{ osism_ansible_container_name }} /run-monitoring.sh $*

@@ -38,13 +38,31 @@ required_packages_manager:
   - python-docker
 
 ##########################
-# ansible helper
+# osism-ansible helper
 
-helper_host: "{{ ansible_default_ipv4.address }}"
-helper_container_name: manager_helper_1
+osism_ansible_container_name: manager_osism-ansible_1
 
-helper_tag: latest
-helper_image: "{{ docker_registry }}/osism/helper:{{ helper_tag }}"
+osism_ansible_tag: latest
+osism_ansible_image: "{{ docker_registry }}/osism/osism-ansible:{{ osism_ansible_tag }}"
+
+##########################
+# ceph-ansible helper
+
+ceph_ansible_container_name: manager_ceph-ansible_1
+
+ceph_ansible_tag: latest
+ceph_ansible_image: "{{ docker_registry }}/osism/ceph-ansible:{{ ceph_ansible_tag }}"
+
+##########################
+# kolla-ansible helper
+
+kolla_ansible_container_name: manager_kolla-ansible_1
+
+kolla_ansible_tag: latest
+kolla_ansible_image: "{{ docker_registry }}/osism/kolla-ansible:{{ kolla_ansible_tag }}"
+
+##########################
+# redis
 
 redis_tag: latest
 redis_image: "{{ docker_registry }}/library/redis:{{ redis_tag }}"
@@ -54,8 +72,6 @@ redis_image: "{{ docker_registry }}/library/redis:{{ redis_tag }}"
 
 ara_server_host: "{{ ansible_default_ipv4.address }}"
 ara_server_port: 8120
-
-ara_server_configuration_directory: /opt/ara/configuration
 
 ara_server_tag: latest
 ara_server_image: "{{ docker_registry }}/osism/ara-server:{{ ara_server_tag }}"
@@ -68,6 +84,9 @@ ara_server_mariadb_port: 3306
 ara_server_mariadb_username: ara
 ara_server_mariadb_password: password
 ara_server_mariadb_databasename: "{{ ara_server_mariadb_username }}"
+
+##########################
+# mariadb
 
 mariadb_tag: latest
 mariadb_image: "{{ docker_registry }}/library/mariadb:{{ mariadb_tag }}"

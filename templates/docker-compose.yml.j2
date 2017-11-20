@@ -1,27 +1,48 @@
 ---
 version: '2'
 services:
-  helper:
+  kolla-ansible:
     restart: unless-stopped
-    image: "{{ helper_image }}"
+    image: "{{ kolla_ansible_image }}"
     entrypoint: sleep infinity
-    extra_hosts:
-      - "osism:{{ helper_host }}"
     volumes:
-      - "cache:{{ cache_directory }}"
-      - "{{ configuration_directory }}:{{ configuration_directory }}:ro"
-      - "logs:{{ logs_directory }}"
-      - "{{ secrets_directory }}:{{ secrets_directory }}:ro"
-      - "share_ceph:/ceph"
-      - "share_kolla:/kolla"
       - "/etc/hosts:/etc/hosts:ro"
-      - /var/run/docker.sock:/var/run/docker.sock
+      - "cache:{{ cache_directory }}"
+      - "logs:{{ logs_directory }}"
+      - "share:/share"
+      - "{{ configuration_directory }}:/opt/configuration:ro"
+      - "{{ secrets_directory }}:/ansible/secrets:ro"
     depends_on:
       - cache
-      - database
-    links:
+      - ara-server
+  osism-ansible:
+    restart: unless-stopped
+    image: "{{ osism_ansible_image }}"
+    entrypoint: sleep infinity
+    volumes:
+      - "/etc/hosts:/etc/hosts:ro"
+      - "cache:{{ cache_directory }}"
+      - "logs:{{ logs_directory }}"
+      - "share:/share"
+      - "{{ configuration_directory }}:/opt/configuration:ro"
+      - "{{ secrets_directory }}:/ansible/secrets:ro"
+    depends_on:
       - cache
-      - database
+      - ara-server
+  ceph-ansible:
+    restart: unless-stopped
+    image: "{{ ceph_ansible_image }}"
+    entrypoint: sleep infinity
+    volumes:
+      - "/etc/hosts:/etc/hosts:ro"
+      - "cache:{{ cache_directory }}"
+      - "logs:{{ logs_directory }}"
+      - "share:/share"
+      - "{{ configuration_directory }}:/opt/configuration:ro"
+      - "{{ secrets_directory }}:/ansible/secrets:ro"
+    depends_on:
+      - cache
+      - ara-server
   ara-server:
     restart: unless-stopped
     image: "{{ ara_server_image }}"
@@ -29,13 +50,11 @@ services:
       ARA_CONFIG: /ara.cfg
       ARA_DATABASE: "mysql+pymysql://{{ ara_server_mariadb_username }}:{{ ara_server_mariadb_password }}@database/{{ ara_server_mariadb_databasename }}"
     volumes:
-      - "{{ ara_server_configuration_directory }}/ara.cfg:/ara.cfg:ro"
       - "/etc/hosts:/etc/hosts:ro"
+      - "{{ manager_configuration_directory }}/ara.cfg:/ara.cfg:ro"
     ports:
       - "{{ ara_server_host }}:{{ ara_server_port }}:9191"
     depends_on:
-      - database
-    links:
       - database
   cache:
     restart: unless-stopped
@@ -55,9 +74,7 @@ services:
       - "mariadb:/var/lib/mysql"
 volumes:
   cache:
-  galaxy:
   logs:
   mariadb:
   redis:
-  share_ceph:
-  share_kolla:
+  share:
