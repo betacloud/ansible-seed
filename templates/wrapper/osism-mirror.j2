@@ -15,14 +15,14 @@ APTLY_IMAGE=osism/aptly
 APTLY_TAG=1.1.1
 
 if [[ $mirror == "images" ]]; then
-    osism-infrastructure mirror-images -e docker_images_file=/ansible/images-ceph.yml -e repository_version=$REPOSITORY_VERSION
-    osism-infrastructure mirror-images -e docker_images_file=/ansible/images-openstack.yml -e repository_version=$REPOSITORY_VERSION
+    osism-infrastructure mirror-images -e docker_images_file=$ENVIRONMENTS_DIRECTORY/images.yml -e repository_version=$REPOSITORY_VERSION
     osism-infrastructure mirror-images -e docker_images_file=$ENVIRONMENTS_DIRECTORY/generic/images.yml -e repository_version=$REPOSITORY_VERSION
     osism-infrastructure mirror-images -e docker_images_file=$ENVIRONMENTS_DIRECTORY/manager/images.yml -e repository_version=$REPOSITORY_VERSION
     osism-infrastructure mirror-images -e docker_images_file=$ENVIRONMENTS_DIRECTORY/infrastructure/images.yml -e repository_version=$REPOSITORY_VERSION
     osism-infrastructure mirror-images -e docker_images_file=$ENVIRONMENTS_DIRECTORY/ceph/images.yml -e repository_version=$REPOSITORY_VERSION
     osism-infrastructure mirror-images -e docker_images_file=$ENVIRONMENTS_DIRECTORY/kolla/images.yml -e repository_version=$REPOSITORY_VERSION
     osism-infrastructure mirror-images -e docker_images_file=$ENVIRONMENTS_DIRECTORY/openstack/images.yml -e repository_version=$REPOSITORY_VERSION
+    osism-infrastructure mirror-images -e docker_images_file=$ENVIRONMENTS_DIRECTORY/monitoring/images.yml -e repository_version=$REPOSITORY_VERSION
 elif [[ $mirror == "files" ]]; then
     osism-infrastructure mirror-files
 elif [[ $mirror == "repositories" ]]; then
