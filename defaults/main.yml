@@ -8,6 +8,7 @@ docker_registry: index.docker.io
 # directories
 
 ansible_directory: /opt/ansible
+archive_directory: /opt/archive
 cache_directory: /opt/ansible/cache
 configuration_directory: /opt/configuration
 logs_directory: /opt/ansible/logs

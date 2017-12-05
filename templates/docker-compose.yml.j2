@@ -24,6 +24,7 @@ services:
       - "cache:{{ cache_directory }}"
       - "logs:{{ logs_directory }}"
       - "share:/share"
+      - "{{ archive_directory }}:/archive:rw"
       - "{{ configuration_directory }}:/opt/configuration:ro"
       - "{{ secrets_directory }}:/ansible/secrets:ro"
     depends_on:
