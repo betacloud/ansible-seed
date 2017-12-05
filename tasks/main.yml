@@ -15,6 +15,7 @@
     mode: 0750
   with_items:
     - "{{ ansible_directory }}"
+    - "{{ archive_directory }}"
     - "{{ secrets_directory }}"
   become: true
 
