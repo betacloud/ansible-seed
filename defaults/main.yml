@@ -37,6 +37,8 @@ required_packages_manager:
   - docker-compose
   - git
   - python-docker
+  - python-pip
+  - python-virtualenv
 
 ##########################
 # osism-ansible helper
@@ -104,4 +106,5 @@ wrapper_scripts:
   - osism-manager
   - osism-mirror
   - osism-monitoring
+  - osism-openstack
   - osism-run
