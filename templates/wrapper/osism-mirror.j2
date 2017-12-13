@@ -17,6 +17,14 @@ APTLY_IMAGE=osism/aptly
 APTLY_TAG=1.1.1
 
 if [[ $mirror == "images" ]]; then
+
+    configurationfile=$ENVIRONMENTS_DIRECTORY/infrastructure/configuration-mirror-images.yml
+
+    if [[ ! -e $configurationfile ]]; then
+        echo "error: necessary file $configurationfile missing"
+        exit 1
+    fi
+
     if [[ -e $ENVIRONMENTS_DIRECTORY/images.yml ]]; then
         osism-infrastructure mirror-images -e docker_images_file=$ENVIRONMENTS_DIRECTORY/images.yml -e repository_version=$REPOSITORY_VERSION
     fi
@@ -42,5 +50,5 @@ elif [[ $mirror == "packages" ]]; then
     echo       docker run --entrypoint /usr/bin/aptly -v /opt/aptly/configuration/aptly.conf:/etc/aptly.conf -v aptly_database:/opt/aptly/db -v aptly_storage:/opt/aptly -it $APTLY_IMAGE:$APTLY_TAG publish snapshot node-$REPOSITORY_VERSION node-$REPOSITORY_VERSION
 else
     echo MIRROR has to be 'images' or 'packages' or 'files'
-    exit
+    exit 1
 fi
