@@ -17,14 +17,16 @@ APTLY_IMAGE=osism/aptly
 APTLY_TAG=1.1.1
 
 if [[ $mirror == "images" ]]; then
-    osism-infrastructure mirror-images -e docker_images_file=$ENVIRONMENTS_DIRECTORY/images.yml -e repository_version=$REPOSITORY_VERSION
-    osism-infrastructure mirror-images -e docker_images_file=$ENVIRONMENTS_DIRECTORY/generic/images.yml -e repository_version=$REPOSITORY_VERSION
-    osism-infrastructure mirror-images -e docker_images_file=$ENVIRONMENTS_DIRECTORY/manager/images.yml -e repository_version=$REPOSITORY_VERSION
-    osism-infrastructure mirror-images -e docker_images_file=$ENVIRONMENTS_DIRECTORY/infrastructure/images.yml -e repository_version=$REPOSITORY_VERSION
-    osism-infrastructure mirror-images -e docker_images_file=$ENVIRONMENTS_DIRECTORY/ceph/images.yml -e repository_version=$REPOSITORY_VERSION
-    osism-infrastructure mirror-images -e docker_images_file=$ENVIRONMENTS_DIRECTORY/kolla/images.yml -e repository_version=$REPOSITORY_VERSION
-    osism-infrastructure mirror-images -e docker_images_file=$ENVIRONMENTS_DIRECTORY/openstack/images.yml -e repository_version=$REPOSITORY_VERSION
-    osism-infrastructure mirror-images -e docker_images_file=$ENVIRONMENTS_DIRECTORY/monitoring/images.yml -e repository_version=$REPOSITORY_VERSION
+    if [[ -e $ENVIRONMENTS_DIRECTORY/images.yml ]]; then
+        osism-infrastructure mirror-images -e docker_images_file=$ENVIRONMENTS_DIRECTORY/images.yml -e repository_version=$REPOSITORY_VERSION
+    fi
+
+    for environment in $(find $ENVIRONMENTS_DIRECTORY -mindepth 1 -maxdepth 1 -type d | xargs -n1 basename); do
+        imagesfile=$ENVIRONMENTS_DIRECTORY/$environment/images.yml
+        if [[ -e $imagesfile ]]; then
+            osism-infrastructure mirror-images -e docker_images_file=$imagesfile -e repository_version=$REPOSITORY_VERSION
+        fi
+    done
 elif [[ $mirror == "files" ]]; then
     osism-infrastructure mirror-files
 elif [[ $mirror == "repositories" ]]; then
