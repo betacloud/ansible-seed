@@ -10,7 +10,8 @@ fi
 mirror=$1
 shift
 
-ENVIRONMENTS_DIRECTORY={{ configuration_directory }}/environments
+CONFIGURATION_DIRECTORY={{ configuration_directory }}
+ENVIRONMENTS_DIRECTORY=$CONFIGURATION_DIRECTORY/environments
 REPOSITORY_VERSION=$(grep repository_version: $ENVIRONMENTS_DIRECTORY/configuration.yml | sed -e 's/.*: \(.*\)/\1/')
 
 APTLY_IMAGE=osism/aptly
@@ -25,6 +26,45 @@ if [[ $mirror == "images" ]]; then
         exit 1
     fi
 
+    docker_namespace=$(grep "docker_namespace:" $configurationfile | awk -F': ' '{ print $2 }')
+    docker_registry=$(grep "docker_registry_external:" $configurationfile | awk -F': ' '{ print $2 }')
+
+    tmpdirectory=$CONFIGURATION_DIRECTORY/tmp-from-image-mirror
+    mkdir -p $tmpdirectory
+
+    for name in ceph-ansible kolla-ansible osism-ansible; do
+        if [[ $name == "ceph-ansible" ]]; then
+            version=$(grep "ceph_version:" $ENVIRONMENTS_DIRECTORY/manager/configuration.yml | awk -F': ' '{ print $2 }')-
+        elif [[ $name == "kolla-ansible" ]]; then
+            version=$(grep "openstack_version:" $ENVIRONMENTS_DIRECTORY/configuration.yml | awk -F': ' '{ print $2 }')-
+        else
+            version=
+        fi
+
+        image=$docker_registry/$docker_namespace/$name:$version$REPOSITORY_VERSION
+        imagename=tmp-from-image-mirror-$name
+
+        if [[ "$(docker images -q $image 2> /dev/null)" == "" ]]; then
+            docker pull $image
+            docker create --name $imagename $image
+            docker cp $imagename:/ansible/group_vars/all/images.yml $tmpdirectory/$name-images.yml
+            docker cp $imagename:/ansible/group_vars/all/images-project.yml $tmpdirectory/$name-images-project.yml
+            docker rm $imagename
+            docker rmi $image
+        else
+            docker create --name $imagename $image
+            docker cp $imagename:/ansible/group_vars/all/images.yml $tmpdirectory/$name-images.yml
+            docker cp $imagename:/ansible/group_vars/all/images-project.yml $tmpdirectory/$name-images-project.yml
+            docker rm $imagename
+        fi
+    done
+
+    for imagesfile in $(find $tmpdirectory -type f); do
+        osism-infrastructure mirror-images -e docker_images_file=$imagesfile -e repository_version=$REPOSITORY_VERSION
+    done
+
+    rm -rf $tmpdirectory
+
     if [[ -e $ENVIRONMENTS_DIRECTORY/images.yml ]]; then
         osism-infrastructure mirror-images -e docker_images_file=$ENVIRONMENTS_DIRECTORY/images.yml -e repository_version=$REPOSITORY_VERSION
     fi
@@ -35,11 +75,17 @@ if [[ $mirror == "images" ]]; then
             osism-infrastructure mirror-images -e docker_images_file=$imagesfile -e repository_version=$REPOSITORY_VERSION
         fi
     done
+
 elif [[ $mirror == "files" ]]; then
+
     osism-infrastructure mirror-files
+
 elif [[ $mirror == "repositories" ]]; then
+
     osism-infrastructure mirror-repositories
+
 elif [[ $mirror == "packages" ]]; then
+
     osism-infrastructure mirror-packages -e repository_version=$REPOSITORY_VERSION
 
     echo
@@ -51,4 +97,5 @@ elif [[ $mirror == "packages" ]]; then
 else
     echo MIRROR has to be 'images' or 'packages' or 'files'
     exit 1
+
 fi
