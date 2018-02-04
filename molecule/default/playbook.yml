@@ -3,5 +3,8 @@
   hosts: all
   connection: paramiko
 
+  vars:
+    operator_user: ubuntu
+
   roles:
     - role: ansible-manager
