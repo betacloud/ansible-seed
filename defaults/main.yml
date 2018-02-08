@@ -34,7 +34,6 @@ private_keys:
 # packages
 
 required_packages_manager:
-  - docker-compose
   - git
   - python-docker
   - python-pip
