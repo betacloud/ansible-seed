@@ -107,3 +107,4 @@ wrapper_scripts:
   - osism-monitoring
   - osism-openstack
   - osism-run
+  - osism-run-without-secrets
