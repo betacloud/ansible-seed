@@ -44,7 +44,7 @@ required_packages_manager:
 
 osism_ansible_container_name: manager_osism-ansible_1
 
-osism_ansible_tag: 20180103-0
+osism_ansible_tag: latest
 osism_ansible_image: "{{ docker_registry }}/osism/osism-ansible:{{ osism_ansible_tag }}"
 
 ##########################
@@ -52,7 +52,7 @@ osism_ansible_image: "{{ docker_registry }}/osism/osism-ansible:{{ osism_ansible
 
 ceph_ansible_container_name: manager_ceph-ansible_1
 
-ceph_ansible_tag: luminous-20180103-0
+ceph_ansible_tag: luminous-latest
 ceph_ansible_image: "{{ docker_registry }}/osism/ceph-ansible:{{ ceph_ansible_tag }}"
 
 ##########################
@@ -60,7 +60,7 @@ ceph_ansible_image: "{{ docker_registry }}/osism/ceph-ansible:{{ ceph_ansible_ta
 
 kolla_ansible_container_name: manager_kolla-ansible_1
 
-kolla_ansible_tag: ocata-20180103-0
+kolla_ansible_tag: ocata-latest
 kolla_ansible_image: "{{ docker_registry }}/osism/kolla-ansible:{{ kolla_ansible_tag }}"
 
 ##########################
