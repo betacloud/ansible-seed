@@ -30,6 +30,11 @@
     group: "{{ operator_group }}"
     mode: 0640
 
+- name: manager - pull images
+  command: "docker-compose pull -f {{ manager_docker_compose_directory }}/docker-compose.yml"
+  register: result
+  changed_when: ('Downloaded' in result.stdout)
+
 - name: manager - run service
   command: "docker-compose -f {{ manager_docker_compose_directory }}/docker-compose.yml -p manager up -d --no-build"
   register: result
