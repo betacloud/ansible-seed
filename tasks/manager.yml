@@ -36,6 +36,6 @@
   changed_when: ('Downloaded' in result.stdout)
 
 - name: manager - run service
-  command: "docker-compose -f {{ manager_docker_compose_directory }}/docker-compose.yml -p manager up -d --no-build"
+  command: "docker-compose -f {{ manager_docker_compose_directory }}/docker-compose.yml up -d --no-build"
   register: result
   changed_when: ('Creating' in result.stdout or 'Recreating' in result.stdout)
