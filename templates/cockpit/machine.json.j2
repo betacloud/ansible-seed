@@ -1,0 +1,8 @@
+{
+    "{{ hostvars[item]['ansible_' + hostvars[item]['cockpit_ssh_interface']]['ipv4']['address'] }}": {
+        "address": "{{ hostvars[item]['ansible_' + hostvars[item]['cockpit_ssh_interface']]['ipv4']['address'] }}",
+        "visible": true,
+        "color": "yellow",
+        "port": "{{ cockpit_ssh_port }}"
+    }
+}

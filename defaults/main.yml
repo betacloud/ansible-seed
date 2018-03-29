@@ -18,6 +18,16 @@ manager_docker_compose_directory: /opt/manager
 manager_configuration_directory: /opt/manager/configuration
 
 ##########################
+# cockpit
+
+configure_cockpit: yes
+cockpit_groupname: all
+cockpit_host: 127.0.0.1
+cockpit_port: 8130
+cockpit_ssh_port: 22
+cockpit_ssh_interface: ens3
+
+##########################
 # operator user
 
 operator_user: dragon
