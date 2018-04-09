@@ -27,3 +27,7 @@
 
 - name: wrapper - include tasks
   include: wrapper.yml
+
+- name: cockpit - include tasks
+  include: cockpit.yml
+  when: configure_cockpit|bool
