@@ -60,6 +60,8 @@ osism_ansible_image: "{{ docker_registry }}/osism/osism-ansible:{{ osism_ansible
 ##########################
 # ceph-ansible helper
 
+ceph_ansible_enable: true
+
 ceph_ansible_container_name: manager_ceph-ansible_1
 
 ceph_ansible_tag: luminous-latest
@@ -67,6 +69,8 @@ ceph_ansible_image: "{{ docker_registry }}/osism/ceph-ansible:{{ ceph_ansible_ta
 
 ##########################
 # kolla-ansible helper
+
+kolla_ansible_enable: true
 
 kolla_ansible_container_name: manager_kolla-ansible_1
 
