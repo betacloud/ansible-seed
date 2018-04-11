@@ -1,20 +1,6 @@
 ---
 version: '2'
 services:
-  kolla-ansible:
-    restart: unless-stopped
-    image: "{{ kolla_ansible_image }}"
-    entrypoint: sleep infinity
-    volumes:
-      - "/etc/hosts:/etc/hosts:ro"
-      - "cache:{{ cache_directory }}"
-      - "logs:{{ logs_directory }}"
-      - "share:/share"
-      - "{{ configuration_directory }}:/opt/configuration:ro"
-      - "{{ secrets_directory }}:/ansible/secrets:ro"
-    depends_on:
-      - cache
-      - ara-server
   osism-ansible:
     restart: unless-stopped
     image: "{{ osism_ansible_image }}"
@@ -30,6 +16,7 @@ services:
     depends_on:
       - cache
       - ara-server
+{% if ceph_ansible_enable %}
   ceph-ansible:
     restart: unless-stopped
     image: "{{ ceph_ansible_image }}"
@@ -44,6 +31,29 @@ services:
     depends_on:
       - cache
       - ara-server
+{% endif %}
+{% if kolla_ansible_enable %}
+  kolla-ansible:
+    restart: unless-stopped
+    image: "{{ kolla_ansible_image }}"
+    entrypoint: sleep infinity
+    volumes:
+      - "/etc/hosts:/etc/hosts:ro"
+      - "cache:{{ cache_directory }}"
+      - "logs:{{ logs_directory }}"
+      - "share:/share"
+      - "{{ configuration_directory }}:/opt/configuration:ro"
+      - "{{ secrets_directory }}:/ansible/secrets:ro"
+    depends_on:
+      - cache
+      - ara-server
+{% endif %}
+  cache:
+    restart: unless-stopped
+    image: "{{ redis_image }}"
+    command: redis-server --appendonly yes
+    volumes:
+      - "redis:/data"
   ara-server:
     restart: unless-stopped
     image: "{{ ara_server_image }}"
@@ -57,12 +67,6 @@ services:
       - "{{ ara_server_host }}:{{ ara_server_port }}:9191"
     depends_on:
       - database
-  cache:
-    restart: unless-stopped
-    image: "{{ redis_image }}"
-    command: redis-server --appendonly yes
-    volumes:
-      - "redis:/data"
   database:
     restart: unless-stopped
     image: "{{ mariadb_image }}"
