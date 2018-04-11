@@ -73,7 +73,6 @@ services:
     environment:
       MYSQL_DATABASE: "{{ ara_server_mariadb_databasename }}"
       MYSQL_PASSWORD: "{{ ara_server_mariadb_password }}"
-      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
       MYSQL_USER: "{{ ara_server_mariadb_username }}"
     volumes:
       - "mariadb:/var/lib/mysql"

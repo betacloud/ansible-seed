@@ -15,12 +15,12 @@
   template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
-    mode: 0640
+    mode: 0644
     owner: "{{ operator_user }}"
     group: "{{ operator_group }}"
   with_items:
     - src: ara-server/ara.cfg.j2
-      dest: "{{ manager_configuration_directory }}/ara.conf"
+      dest: "{{ manager_configuration_directory }}/ara.cfg"
 
 - name: manager - copy docker-compose.yml file
   template:
