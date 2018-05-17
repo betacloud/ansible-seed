@@ -1,5 +1,5 @@
 ---
-- name: manager - create required directories
+- name: Create required directories
   file:
     path: "{{ item }}"
     state: directory
@@ -11,7 +11,7 @@
     - "{{ manager_docker_compose_directory }}"
     - "{{ manager_configuration_directory }}"
 
-- name: manager - copy configuration files
+- name: Copy configuration files
   template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
@@ -22,7 +22,7 @@
     - src: ara-server/ara.cfg.j2
       dest: "{{ manager_configuration_directory }}/ara.cfg"
 
-- name: manager - copy docker-compose.yml file
+- name: Copy docker-compose.yml file
   template:
     src: docker-compose.yml.j2
     dest: "{{ manager_docker_compose_directory }}/docker-compose.yml"
@@ -30,12 +30,12 @@
     group: "{{ operator_group }}"
     mode: 0640
 
-- name: manager - pull images
+- name: Pull images
   command: "docker-compose -f {{ manager_docker_compose_directory }}/docker-compose.yml pull"
   register: result
   changed_when: ('Downloaded' in result.stdout)
 
-- name: manager - run service
+- name: Run service
   command: "docker-compose -f {{ manager_docker_compose_directory }}/docker-compose.yml up -d --remove-orphans --no-build"
   register: result
   changed_when: ('Creating' in result.stdout or 'Recreating' in result.stdout)
