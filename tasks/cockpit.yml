@@ -53,7 +53,7 @@
 - name: cockpit - copy machine files
   template:
     src: cockpit/machine.json.j2
-    dest: "/etc/cockpit/machines.d/05-osism.json"
+    dest: "/etc/cockpit/machines.d/05-osism-{{ item }}.json"
     owner: root
     group: root
     mode: 0644
