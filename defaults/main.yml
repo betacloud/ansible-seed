@@ -74,7 +74,7 @@ kolla_ansible_enable: true
 
 kolla_ansible_container_name: manager_kolla-ansible_1
 
-kolla_ansible_tag: ocata-latest
+kolla_ansible_tag: pike-latest
 kolla_ansible_image: "{{ docker_registry }}/osism/kolla-ansible:{{ kolla_ansible_tag }}"
 
 ##########################
