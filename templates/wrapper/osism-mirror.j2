@@ -12,7 +12,7 @@ shift
 
 CONFIGURATION_DIRECTORY={{ configuration_directory }}
 ENVIRONMENTS_DIRECTORY=$CONFIGURATION_DIRECTORY/environments
-REPOSITORY_VERSION=$(grep repository_version: $ENVIRONMENTS_DIRECTORY/configuration.yml | sed -e 's/.*: \(.*\)/\1/')
+REPOSITORY_VERSION=$(grep "^repository_version:" $ENVIRONMENTS_DIRECTORY/configuration.yml | sed -e 's/.*: \(.*\)/\1/')
 
 APTLY_IMAGE=osism/aptly
 APTLY_TAG=1.1.1
@@ -26,17 +26,17 @@ if [[ $mirror == "images" ]]; then
         exit 1
     fi
 
-    docker_namespace=$(grep "docker_namespace:" $configurationfile | awk -F': ' '{ print $2 }')
-    docker_registry=$(grep "docker_registry_external:" $configurationfile | awk -F': ' '{ print $2 }')
+    docker_namespace=$(grep "^docker_namespace:" $configurationfile | awk -F': ' '{ print $2 }')
+    docker_registry=$(grep "^docker_registry_external:" $configurationfile | awk -F': ' '{ print $2 }')
 
     tmpdirectory=$CONFIGURATION_DIRECTORY/tmp-from-image-mirror
     mkdir -p $tmpdirectory
 
     for name in ceph-ansible kolla-ansible osism-ansible; do
         if [[ $name == "ceph-ansible" ]]; then
-            version=$(grep "ceph_version:" $ENVIRONMENTS_DIRECTORY/manager/configuration.yml | awk -F': ' '{ print $2 }')-
+            version=$(grep "^ceph_version:" $ENVIRONMENTS_DIRECTORY/manager/configuration.yml | awk -F': ' '{ print $2 }')-
         elif [[ $name == "kolla-ansible" ]]; then
-            version=$(grep "openstack_version:" $ENVIRONMENTS_DIRECTORY/configuration.yml | awk -F': ' '{ print $2 }')-
+            version=$(grep "^openstack_version:" $ENVIRONMENTS_DIRECTORY/configuration.yml | awk -F': ' '{ print $2 }')-
         else
             version=
         fi
