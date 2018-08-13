@@ -80,10 +80,6 @@ elif [[ $mirror == "files" ]]; then
 
     osism-infrastructure mirror-files
 
-elif [[ $mirror == "repositories" ]]; then
-
-    osism-infrastructure mirror-repositories
-
 elif [[ $mirror == "packages" ]]; then
 
     osism-infrastructure mirror-packages -e repository_version=$REPOSITORY_VERSION
