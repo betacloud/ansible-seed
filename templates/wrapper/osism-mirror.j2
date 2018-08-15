@@ -84,12 +84,6 @@ elif [[ $mirror == "packages" ]]; then
 
     osism-infrastructure mirror-packages -e repository_version=$REPOSITORY_VERSION
 
-    echo
-    echo NOTE: The publish step is not automated because it is required to enter the GPG password.
-    echo
-    echo       Run the following command on the mirror node. If necessary, adjust the Docker image accordingly.
-    echo
-    echo       docker run --entrypoint /usr/bin/aptly -v /opt/aptly/configuration/aptly.conf:/etc/aptly.conf -v aptly_database:/opt/aptly/db -v aptly_storage:/opt/aptly -it $APTLY_IMAGE:$APTLY_TAG publish snapshot node-$REPOSITORY_VERSION node-$REPOSITORY_VERSION
 else
     echo MIRROR has to be 'images' or 'packages' or 'files'
     exit 1
