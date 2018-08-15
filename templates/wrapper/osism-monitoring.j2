@@ -9,4 +9,4 @@ else
     PARAMETERS=
 fi
 
-docker exec $PARAMETERS {{ osism_ansible_container_name }} /run-monitoring.sh $*
+docker exec $PARAMETERS {{ osism_ansible_container_name }} /run-monitoring.sh "$@"
