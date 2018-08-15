@@ -4,6 +4,7 @@
   connection: paramiko
 
   vars:
+    configure_cockpit: yes
     operator_user: ubuntu
 
   roles:

@@ -20,7 +20,7 @@ manager_configuration_directory: /opt/manager/configuration
 ##########################
 # cockpit
 
-configure_cockpit: yes
+configure_cockpit: no
 cockpit_groupname: all
 cockpit_host: 127.0.0.1
 cockpit_port: 8130
