@@ -14,9 +14,6 @@ CONFIGURATION_DIRECTORY={{ configuration_directory }}
 ENVIRONMENTS_DIRECTORY=$CONFIGURATION_DIRECTORY/environments
 REPOSITORY_VERSION=$(grep "^repository_version:" $ENVIRONMENTS_DIRECTORY/configuration.yml | sed -e 's/.*: \(.*\)/\1/')
 
-APTLY_IMAGE=osism/aptly
-APTLY_TAG=1.3.0
-
 if [[ $mirror == "images" ]]; then
 
     configurationfile=$ENVIRONMENTS_DIRECTORY/infrastructure/configuration-mirror-images.yml
@@ -82,9 +79,10 @@ elif [[ $mirror == "files" ]]; then
 
 elif [[ $mirror == "packages" ]]; then
 
-    osism-infrastructure mirror-packages -e repository_version=$REPOSITORY_VERSION
+    osism-infrastructure mirror-packages
 
 else
+
     echo MIRROR has to be 'images' or 'packages' or 'files'
     exit 1
 
