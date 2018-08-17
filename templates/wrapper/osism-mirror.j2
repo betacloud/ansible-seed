@@ -12,11 +12,11 @@ shift
 
 CONFIGURATION_DIRECTORY={{ configuration_directory }}
 ENVIRONMENTS_DIRECTORY=$CONFIGURATION_DIRECTORY/environments
-REPOSITORY_VERSION=$(grep "^repository_version:" $ENVIRONMENTS_DIRECTORY/configuration.yml | sed -e 's/.*: \(.*\)/\1/')
 
 if [[ $mirror == "images" ]]; then
 
     configurationfile=$ENVIRONMENTS_DIRECTORY/infrastructure/configuration-mirror-images.yml
+    repository_version=$(grep "^repository_version:" $configurationfile | sed -e 's/.*: \(.*\)/\1/')
 
     if [[ ! -e $configurationfile ]]; then
         echo "error: necessary file $configurationfile missing"
@@ -31,14 +31,14 @@ if [[ $mirror == "images" ]]; then
 
     for name in ceph-ansible kolla-ansible osism-ansible; do
         if [[ $name == "ceph-ansible" ]]; then
-            version=$(grep "^ceph_version:" $ENVIRONMENTS_DIRECTORY/manager/configuration.yml | awk -F': ' '{ print $2 }')-
+            version=$(grep "^ceph_version:" $configurationfile | awk -F': ' '{ print $2 }')-$(grep "^ceph_manager_version:" $configurationfile | awk -F': ' '{ print $2 }')
         elif [[ $name == "kolla-ansible" ]]; then
-            version=$(grep "^openstack_version:" $ENVIRONMENTS_DIRECTORY/configuration.yml | awk -F': ' '{ print $2 }')-
+            version=$(grep "^openstack_version:" $configurationfile | awk -F': ' '{ print $2 }')-$(grep "^kolla_manager_version:" $configurationfile | awk -F': ' '{ print $2 }')
         else
-            version=
+            version=$(grep "^osism_manager_version:" $configurationfile | awk -F': ' '{ print $2 }')
         fi
 
-        image=$docker_registry/$docker_namespace/$name:$version$REPOSITORY_VERSION
+        image=$docker_registry/$docker_namespace/$name:$version
         imagename=tmp-from-image-mirror-$name
 
         if [[ "$(docker images -q $image 2> /dev/null)" == "" ]]; then
@@ -57,19 +57,19 @@ if [[ $mirror == "images" ]]; then
     done
 
     for imagesfile in $(find $tmpdirectory -type f); do
-        osism-infrastructure mirror-images -e docker_images_file=$imagesfile -e repository_version=$REPOSITORY_VERSION
+        osism-infrastructure mirror-images -e docker_images_file=$imagesfile -e repository_version=$repository_version
     done
 
     rm -rf $tmpdirectory
 
     if [[ -e $ENVIRONMENTS_DIRECTORY/images.yml ]]; then
-        osism-infrastructure mirror-images -e docker_images_file=$ENVIRONMENTS_DIRECTORY/images.yml -e repository_version=$REPOSITORY_VERSION
+        osism-infrastructure mirror-images -e docker_images_file=$ENVIRONMENTS_DIRECTORY/images.yml -e repository_version=$repository_version
     fi
 
     for environment in $(find $ENVIRONMENTS_DIRECTORY -mindepth 1 -maxdepth 1 -type d | xargs -n1 basename); do
         imagesfile=$ENVIRONMENTS_DIRECTORY/$environment/images.yml
         if [[ -e $imagesfile ]]; then
-            osism-infrastructure mirror-images -e docker_images_file=$imagesfile -e repository_version=$REPOSITORY_VERSION
+            osism-infrastructure mirror-images -e docker_images_file=$imagesfile -e repository_version=$repository_version
         fi
     done
 
