@@ -30,8 +30,3 @@
 - name: wrapper - include tasks
   include: wrapper.yml
   tags: wrapper
-
-- name: cockpit - include tasks
-  include: cockpit.yml
-  when: configure_cockpit|bool
-  tags: cockpit
