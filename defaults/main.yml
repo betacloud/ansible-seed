@@ -68,11 +68,15 @@ kolla_ansible_image: "{{ docker_registry }}/osism/kolla-ansible:{{ kolla_ansible
 ##########################
 # redis
 
+redis_enable: true
+
 redis_tag: 4.0
 redis_image: "{{ docker_registry }}/library/redis:{{ redis_tag }}"
 
 ##########################
 # ara server
+
+ara_server_enable: true
 
 ara_server_host: "{{ ansible_default_ipv4.address }}"
 ara_server_port: 8120
