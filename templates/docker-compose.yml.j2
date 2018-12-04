@@ -1,5 +1,5 @@
 ---
-version: '2'
+version: '3'
 services:
   osism-ansible:
     restart: unless-stopped
@@ -67,6 +67,8 @@ services:
     command: redis-server --appendonly yes
     volumes:
       - "redis:/data"
+    healthcheck:
+      test: redis-cli ping
 {% endif %}
 {% if ara_server_enable %}
   ara-server:
@@ -82,6 +84,8 @@ services:
       - "{{ ara_server_host }}:{{ ara_server_port }}:9191"
     depends_on:
       - database
+    healthcheck:
+      test: curl --silent --fail http://localhost:9191
   database:
     restart: unless-stopped
     image: "{{ mariadb_image }}"
@@ -92,6 +96,8 @@ services:
       MYSQL_USER: "{{ ara_server_mariadb_username }}"
     volumes:
       - "mariadb:/var/lib/mysql"
+    healthcheck:
+      test: mysqladmin ping -h localhost -u $MYSQL_USER -p$MYSQL_PASSWORD
 {% endif %}
 volumes:
   cache:
