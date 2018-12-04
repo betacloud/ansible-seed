@@ -8,7 +8,7 @@ lint:
   options:
     config-file: molecule/default/yamllint.yml
 platforms:
-  - name: molecule$TRAVIS_JOB_ID
+  - name: $PLATFORM_NAME
 provisioner:
   name: ansible
   lint:
@@ -17,14 +17,3 @@ verifier:
   name: testinfra
 scenario:
   name: default
-  test_sequence:
-    - lint
-    - destroy
-    - dependency
-    - syntax
-    - create
-    - prepare
-    - converge
-    - side_effect
-    - verify
-    - destroy
