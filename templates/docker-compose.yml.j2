@@ -109,3 +109,11 @@ volumes:
   redis:
 {% endif %}
   share:
+
+networks:
+ default:
+   driver: bridge
+   ipam:
+     driver: default
+     config:
+       - subnet:  {{ manager_network }}

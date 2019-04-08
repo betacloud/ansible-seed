@@ -3,6 +3,7 @@
 # docker
 
 docker_registry: index.docker.io
+manager_network: 172.31.101.0/28
 
 ##########################
 # directories
