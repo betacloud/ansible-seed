@@ -97,6 +97,8 @@ ara_server_mariadb_databasename: "{{ ara_server_mariadb_username }}"
 ##########################
 # mariadb
 
+mariadb_enable: true
+
 mariadb_tag: 10.3
 mariadb_image: "{{ docker_registry }}/library/mariadb:{{ mariadb_tag }}"
 

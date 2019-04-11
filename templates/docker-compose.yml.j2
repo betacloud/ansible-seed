@@ -82,10 +82,13 @@ services:
       - "{{ manager_configuration_directory }}/ara.cfg:/ara.cfg:ro"
     ports:
       - "{{ ara_server_host }}:{{ ara_server_port }}:9191"
+{% if mariadb_enable %}
     depends_on:
       - database
+{% endif %}
     healthcheck:
       test: curl --silent --fail http://localhost:9191
+{% if mariadb_enable %}
   database:
     restart: unless-stopped
     image: "{{ mariadb_image }}"
@@ -98,6 +101,7 @@ services:
       - "mariadb:/var/lib/mysql"
     healthcheck:
       test: mysqladmin ping -h localhost -u $MYSQL_USER -p$MYSQL_PASSWORD
+{% endif %}
 {% endif %}
 volumes:
   cache:
