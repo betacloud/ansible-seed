@@ -4,7 +4,7 @@ services:
   osism-ansible:
     restart: unless-stopped
     image: "{{ osism_ansible_image }}"
-    entrypoint: sleep infinity
+    command: sleep infinity
     volumes:
       - "/etc/hosts:/etc/hosts:ro"
       - "cache:{{ cache_directory }}"
@@ -24,7 +24,7 @@ services:
   ceph-ansible:
     restart: unless-stopped
     image: "{{ ceph_ansible_image }}"
-    entrypoint: sleep infinity
+    command: sleep infinity
     volumes:
       - "/etc/hosts:/etc/hosts:ro"
       - "cache:{{ cache_directory }}"
@@ -44,7 +44,7 @@ services:
   kolla-ansible:
     restart: unless-stopped
     image: "{{ kolla_ansible_image }}"
-    entrypoint: sleep infinity
+    command: sleep infinity
     volumes:
       - "/etc/hosts:/etc/hosts:ro"
       - "cache:{{ cache_directory }}"
