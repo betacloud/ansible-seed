@@ -10,8 +10,6 @@ fi
 playbook=$1
 shift
 
-pushd {{ configuration_directory }}/environments/manager
-
 [[ -e playbook-$playbook.yml ]] >/dev/null 2>&1 || { echo >&2 "playbook-$playbook.yml is not a playbook"; exit 1; }
 command -v virtualenv >/dev/null 2>&1 || { echo >&2 "virtualenv not installed"; exit 1; }
 
@@ -48,8 +46,17 @@ if [[ ! -e roles ]]; then
 
 fi
 
+if [[ ! -e id_rsa.operator ]]; then
+
+    ansible-playbook \
+        -i localhost, \
+        -e @../secrets.yml \
+        playbook-keypair.yml "$@"
+
+fi
+
 ansible-playbook \
-    --private-key {{ secrets_directory }}/id_rsa.operator \
+    --private-key id_rsa.operator \
     -i hosts \
     -e @../images.yml \
     -e @../configuration.yml \
@@ -66,5 +73,3 @@ if [[ $CLEANUP == "true" ]]; then
     rm -rf $VENV_PATH
 
 fi
-
-popd
