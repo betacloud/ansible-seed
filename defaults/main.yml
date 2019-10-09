@@ -63,7 +63,7 @@ kolla_ansible_enable: true
 
 kolla_ansible_container_name: manager_kolla-ansible_1
 
-kolla_ansible_tag: pike-latest
+kolla_ansible_tag: rocky-latest
 kolla_ansible_image: "{{ docker_registry }}/osism/kolla-ansible:{{ kolla_ansible_tag }}"
 
 ##########################
@@ -71,7 +71,7 @@ kolla_ansible_image: "{{ docker_registry }}/osism/kolla-ansible:{{ kolla_ansible
 
 redis_enable: true
 
-redis_tag: 4.0
+redis_tag: 5.0
 redis_image: "{{ docker_registry }}/library/redis:{{ redis_tag }}"
 
 ##########################
@@ -82,7 +82,7 @@ ara_server_enable: true
 ara_server_host: "{{ ansible_default_ipv4.address }}"
 ara_server_port: 8120
 
-ara_server_tag: 0.16.3
+ara_server_tag: 1.1.0
 ara_server_image: "{{ docker_registry }}/osism/ara-server:{{ ara_server_tag }}"
 
 # mariadb (used by ara)
@@ -99,7 +99,7 @@ ara_server_mariadb_databasename: "{{ ara_server_mariadb_username }}"
 
 mariadb_enable: true
 
-mariadb_tag: 10.3
+mariadb_tag: 10.4
 mariadb_image: "{{ docker_registry }}/library/mariadb:{{ mariadb_tag }}"
 
 ##########################
