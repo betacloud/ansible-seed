@@ -22,6 +22,17 @@
     - src: ara-server/ara.cfg.j2
       dest: "{{ manager_configuration_directory }}/ara.cfg"
 
+- name: Copy environment files
+  template:
+    src: "{{ item }}.env.j2"
+    dest: "{{ manager_configuration_directory }}/{{ item }}.env"
+    mode: 0644
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+  with_items:
+    - ara-server
+    - database
+
 - name: Copy docker-compose.yml file
   template:
     src: docker-compose.yml.j2
