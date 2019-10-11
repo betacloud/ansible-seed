@@ -10,6 +10,8 @@ fi
 playbook=$1
 shift
 
+pushd {{ configuration_directory }}/environments/manager
+
 [[ -e playbook-$playbook.yml ]] >/dev/null 2>&1 || { echo >&2 "playbook-$playbook.yml is not a playbook"; exit 1; }
 command -v virtualenv >/dev/null 2>&1 || { echo >&2 "virtualenv not installed"; exit 1; }
 
@@ -73,3 +75,5 @@ if [[ $CLEANUP == "true" ]]; then
     rm -rf $VENV_PATH
 
 fi
+
+popd
