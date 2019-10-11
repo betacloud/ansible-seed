@@ -75,6 +75,14 @@ redis_tag: 5.0
 redis_image: "{{ docker_registry }}/library/redis:{{ redis_tag }}"
 
 ##########################
+# ara
+
+ara_enable: true
+
+ara_username: ara
+ara_password: password
+
+##########################
 # ara server
 
 ara_server_enable: true

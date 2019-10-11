@@ -4,6 +4,10 @@ services:
   osism-ansible:
     restart: unless-stopped
     image: "{{ osism_ansible_image }}"
+{% if ara_enable %}
+    env_file:
+      - "{{ manager_configuration_directory }}/ara.env"
+{% endif %}
     command: sleep infinity
     volumes:
       - "/etc/hosts:/etc/hosts:ro"
@@ -24,6 +28,10 @@ services:
   ceph-ansible:
     restart: unless-stopped
     image: "{{ ceph_ansible_image }}"
+{% if ara_enable %}
+    env_file:
+      - "{{ manager_configuration_directory }}/ara.env"
+{% endif %}
     command: sleep infinity
     volumes:
       - "/etc/hosts:/etc/hosts:ro"
@@ -44,6 +52,10 @@ services:
   kolla-ansible:
     restart: unless-stopped
     image: "{{ kolla_ansible_image }}"
+{% if ara_enable %}
+    env_file:
+      - "{{ manager_configuration_directory }}/ara.env"
+{% endif %}
     command: sleep infinity
     volumes:
       - "/etc/hosts:/etc/hosts:ro"
@@ -76,17 +88,17 @@ services:
     image: "{{ ara_server_image }}"
     env_file:
       - "{{ manager_configuration_directory }}/ara-server.env"
+      - "{{ manager_configuration_directory }}/ara.env"
     volumes:
       - "/etc/hosts:/etc/hosts:ro"
-      - "{{ manager_configuration_directory }}/ara.cfg:/ara.cfg:ro"
     ports:
-      - "{{ ara_server_host }}:{{ ara_server_port }}:9191"
+      - "{{ ara_server_host }}:{{ ara_server_port }}:8000"
 {% if mariadb_enable %}
     depends_on:
       - database
 {% endif %}
     healthcheck:
-      test: curl --silent --fail http://localhost:9191
+      test: curl --silent --fail http://localhost:8000
 {% if mariadb_enable %}
   database:
     restart: unless-stopped
