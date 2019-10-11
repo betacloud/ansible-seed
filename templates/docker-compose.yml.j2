@@ -96,7 +96,7 @@ services:
     volumes:
       - "mariadb:/var/lib/mysql"
     healthcheck:
-      test: mysqladmin ping -h localhost -u $MYSQL_USER -p$MYSQL_PASSWORD
+      test: mysqladmin ping -h localhost -u $$MYSQL_USER -p$$MYSQL_PASSWORD
 {% endif %}
 {% endif %}
 volumes:
