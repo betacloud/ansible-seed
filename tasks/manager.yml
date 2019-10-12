@@ -21,6 +21,7 @@
   with_items:
     - ara
     - ara-server
+    - ara-web
     - database
 
 - name: Copy docker-compose.yml file

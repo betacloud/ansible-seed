@@ -82,7 +82,16 @@ ara_enable: true
 ara_username: ara
 ara_password: password
 
-##########################
+# ara web
+
+ara_web_enable: "{{ ara_server_enable }}"
+
+ara_web_host: "{{ ara_server_host }}"
+ara_web_port: 8121
+
+ara_web_tag: 1.0.0
+ara_web_image: "{{ docker_registry }}/osism/ara-web:{{ ara_web_tag }}"
+
 # ara server
 
 ara_server_enable: true
