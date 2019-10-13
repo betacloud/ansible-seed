@@ -35,8 +35,8 @@ private_keys:
 # packages
 
 required_packages_manager:
-  - python-pip
   - python-virtualenv
+  - python3-virtualenv
 
 ##########################
 # osism-ansible helper
