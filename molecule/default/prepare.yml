@@ -2,8 +2,17 @@
 - name: Playbook for role preparations
   hosts: all
 
-  vars:
-    docker_user: ubuntu
-
   roles:
+    - role: osism.operator
     - role: osism.docker
+
+  tasks:
+    - name: Copy ssh private key for operator user
+      copy:
+        src: /home/ubuntu/.ssh/authorized_keys
+        dest: /home/dragon/.ssh/authorized_keys
+        remote_src: true
+        owner: dragon
+        group: dragon
+        mode: 0600
+      become: true

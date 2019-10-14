@@ -4,7 +4,7 @@
   connection: paramiko
 
   vars:
-    operator_user: ubuntu
+    ansible_ssh_user: dragon
 
   roles:
     - role: ansible-manager

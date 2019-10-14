@@ -6,3 +6,7 @@
 - name: osism.configuration
   src: git+https://github.com/osism/ansible-configuration.git
   version: master
+
+- name: osism.operator
+  src: git+https://github.com/osism/ansible-operator.git
+  version: master
