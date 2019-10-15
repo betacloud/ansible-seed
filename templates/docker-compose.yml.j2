@@ -112,7 +112,7 @@ services:
       - database
 {% endif %}
     healthcheck:
-      test: curl --silent --fail http://localhost:8000
+      test: curl --silent --fail --basic --user $$ARA_API_USERNAME:$$ARA_API_PASSWORD http://localhost:8000
 {% if mariadb_enable %}
   database:
     restart: unless-stopped
