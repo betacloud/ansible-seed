@@ -18,3 +18,17 @@ def test_wrapper_script_files(host, name):
     f = host.file("/usr/local/bin/%s" % name)
     assert f.exists
     assert f.is_file
+
+
+@pytest.mark.parametrize("name", [
+    ("manager_ara-server_1"),
+    ("manager_ara-web_1"),
+    ("manager_cache_1"),
+    ("manager_ceph-ansible_1"),
+    ("manager_database_1"),
+    ("manager_kolla-ansible_1"),
+    ("manager_osism-ansible_1")
+])
+def test_running_containers(host, name):
+    c = host.docker(name)
+    assert c.is_running

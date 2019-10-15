@@ -1,4 +1,5 @@
 ---
 ansible_role_name: manager
 molecule_needs_docker: true
+molecule_testinfra: true
 travis_decrypt_key: 7b10c3b0dc82
