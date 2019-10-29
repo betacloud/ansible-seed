@@ -71,7 +71,7 @@ kolla_ansible_image: "{{ docker_registry }}/osism/kolla-ansible:{{ kolla_ansible
 
 redis_enable: true
 
-redis_tag: 5.0
+redis_tag: 5-alpine
 redis_image: "{{ docker_registry }}/library/redis:{{ redis_tag }}"
 
 ##########################
