@@ -90,11 +90,11 @@ services:
       - "{{ manager_configuration_directory }}/ara.env"
       - "{{ manager_configuration_directory }}/ara-web.env"
     ports:
-      - "{{ ara_web_host }}:{{ ara_web_port }}:3000"
+      - "{{ ara_web_host }}:{{ ara_web_port }}:80"
     depends_on:
       - ara-server
     healthcheck:
-      test: curl --silent --fail http://localhost:3000
+      test: curl --silent --fail http://localhost
 {% endif %}
 {% if ara_server_enable %}
   ara-server:
