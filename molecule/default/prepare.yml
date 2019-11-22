@@ -2,6 +2,9 @@
 - name: Playbook for role preparations
   hosts: all
 
+  vars:
+    docker_configure_repository: yes
+
   roles:
     - role: osism.operator
     - role: osism.docker
