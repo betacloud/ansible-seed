@@ -11,7 +11,7 @@
     - "{{ manager_docker_compose_directory }}"
     - "{{ manager_configuration_directory }}"
 
-- name: Copy environment files
+- name: Copy environment files for Ara
   template:
     src: "env/{{ item }}.env.j2"
     dest: "{{ manager_configuration_directory }}/{{ item }}.env"
@@ -23,6 +23,7 @@
     - ara-server
     - ara-web
     - database
+  when: ara_enable
 
 - name: Copy docker-compose.yml file
   template:
