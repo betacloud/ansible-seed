@@ -53,7 +53,7 @@ ceph_ansible_enable: true
 
 ceph_ansible_container_name: manager_ceph-ansible_1
 
-ceph_ansible_tag: luminous-latest
+ceph_ansible_tag: nautilus
 ceph_ansible_image: "{{ docker_registry }}/osism/ceph-ansible:{{ ceph_ansible_tag }}"
 
 ##########################
@@ -63,7 +63,7 @@ kolla_ansible_enable: true
 
 kolla_ansible_container_name: manager_kolla-ansible_1
 
-kolla_ansible_tag: rocky-latest
+kolla_ansible_tag: train
 kolla_ansible_image: "{{ docker_registry }}/osism/kolla-ansible:{{ kolla_ansible_tag }}"
 
 ##########################
