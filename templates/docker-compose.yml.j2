@@ -82,20 +82,6 @@ services:
     healthcheck:
       test: redis-cli ping
 {% endif %}
-{% if ara_web_enable %}
-  ara-web:
-    restart: unless-stopped
-    image: "{{ ara_web_image }}"
-    env_file:
-      - "{{ manager_configuration_directory }}/ara.env"
-      - "{{ manager_configuration_directory }}/ara-web.env"
-    ports:
-      - "{{ ara_web_host }}:{{ ara_web_port }}:80"
-    depends_on:
-      - ara-server
-    healthcheck:
-      test: wget --quiet --tries=1 --spider http://localhost || exit 1
-{% endif %}
 {% if ara_server_enable %}
   ara-server:
     restart: unless-stopped

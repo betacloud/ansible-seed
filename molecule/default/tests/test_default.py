@@ -22,7 +22,6 @@ def test_wrapper_script_files(host, name):
 
 @pytest.mark.parametrize("name", [
     ("manager_ara-server_1"),
-    ("manager_ara-web_1"),
     ("manager_cache_1"),
     ("manager_ceph-ansible_1"),
     ("manager_database_1"),
