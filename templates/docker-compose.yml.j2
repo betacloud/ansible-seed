@@ -21,7 +21,7 @@ services:
 {% if redis_enable %}
       - cache
 {% endif %}
-{% if ara_server_enable %}
+{% if ara_enable %}
       - ara-server
 {% endif %}
 {% if ceph_ansible_enable %}
@@ -44,7 +44,7 @@ services:
 {% if redis_enable %}
       - cache
 {% endif %}
-{% if ara_server_enable %}
+{% if ara_enable %}
       - ara-server
 {% endif %}
 {% endif %}
@@ -68,7 +68,7 @@ services:
 {% if redis_enable %}
       - cache
 {% endif %}
-{% if ara_server_enable %}
+{% if ara_enable %}
       - ara-server
 {% endif %}
 {% endif %}
@@ -82,7 +82,7 @@ services:
     healthcheck:
       test: redis-cli ping
 {% endif %}
-{% if ara_server_enable %}
+{% if ara_enable %}
   ara-server:
     restart: unless-stopped
     image: "{{ ara_server_image }}"
@@ -93,13 +93,10 @@ services:
       - "/etc/hosts:/etc/hosts:ro"
     ports:
       - "{{ ara_server_host }}:{{ ara_server_port }}:8000"
-{% if mariadb_enable %}
     depends_on:
       - database
-{% endif %}
     healthcheck:
       test: curl --silent --fail --basic --user $$ARA_API_USERNAME:$$ARA_API_PASSWORD http://localhost:8000
-{% if mariadb_enable %}
   database:
     restart: unless-stopped
     image: "{{ mariadb_image }}"
@@ -110,11 +107,10 @@ services:
     healthcheck:
       test: mysqladmin status -h localhost -u $$MYSQL_USER -p$$MYSQL_PASSWORD || exit 1
 {% endif %}
-{% endif %}
 volumes:
   cache:
   logs:
-{% if ara_server_enable %}
+{% if ara_enable %}
   mariadb:
 {% endif %}
 {% if redis_enable %}

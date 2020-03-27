@@ -84,8 +84,6 @@ ara_password: password
 
 # ara server
 
-ara_server_enable: true
-
 ara_server_host: "{{ ansible_default_ipv4.address }}"
 ara_server_port: 8120
 
@@ -100,11 +98,6 @@ ara_server_mariadb_port: 3306
 ara_server_mariadb_username: ara
 ara_server_mariadb_password: password
 ara_server_mariadb_databasename: "{{ ara_server_mariadb_username }}"
-
-##########################
-# mariadb
-
-mariadb_enable: true
 
 mariadb_tag: 10.4
 mariadb_image: "{{ docker_registry }}/library/mariadb:{{ mariadb_tag }}"
