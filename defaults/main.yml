@@ -87,7 +87,7 @@ ara_password: password
 ara_server_host: "{{ ansible_default_ipv4.address }}"
 ara_server_port: 8120
 
-ara_server_tag: 1.3.0
+ara_server_tag: 1.4.0
 ara_server_image: "{{ docker_registry }}/osism/ara-server:{{ ara_server_tag }}"
 
 # mariadb (used by ara)
