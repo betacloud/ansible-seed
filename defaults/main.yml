@@ -35,7 +35,6 @@ private_keys:
 # packages
 
 required_packages_manager:
-  - python-virtualenv
   - python3-virtualenv
 
 ##########################
