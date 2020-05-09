@@ -70,7 +70,7 @@ kolla_ansible_image: "{{ docker_registry }}/osism/kolla-ansible:{{ kolla_ansible
 
 redis_enable: true
 
-redis_tag: 5-alpine
+redis_tag: 6-alpine
 redis_image: "{{ docker_registry }}/library/redis:{{ redis_tag }}"
 
 ##########################
@@ -98,7 +98,7 @@ ara_server_mariadb_username: ara
 ara_server_mariadb_password: password
 ara_server_mariadb_databasename: "{{ ara_server_mariadb_username }}"
 
-mariadb_tag: 10.4
+mariadb_tag: 10.5
 mariadb_image: "{{ docker_registry }}/library/mariadb:{{ mariadb_tag }}"
 
 ##########################
