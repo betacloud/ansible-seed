@@ -19,7 +19,7 @@ services:
       - "{{ secrets_directory }}:/ansible/secrets:ro"
     depends_on:
 {% if redis_enable %}
-      - cache
+      - redis
 {% endif %}
 {% if ara_enable %}
       - ara-server
@@ -42,7 +42,7 @@ services:
       - "{{ secrets_directory }}:/ansible/secrets:ro"
     depends_on:
 {% if redis_enable %}
-      - cache
+      - redis
 {% endif %}
 {% if ara_enable %}
       - ara-server
@@ -66,14 +66,14 @@ services:
       - "{{ secrets_directory }}:/ansible/secrets:ro"
     depends_on:
 {% if redis_enable %}
-      - cache
+      - redis
 {% endif %}
 {% if ara_enable %}
       - ara-server
 {% endif %}
 {% endif %}
 {% if redis_enable %}
-  cache:
+  redis:
     restart: unless-stopped
     image: "{{ redis_image }}"
     command: redis-server --appendonly yes
@@ -81,6 +81,10 @@ services:
       - "redis:/data"
     healthcheck:
       test: redis-cli ping
+    networks:
+      default:
+        aliases:
+          - cache
 {% endif %}
 {% if ara_enable %}
   ara-server:
@@ -94,20 +98,92 @@ services:
     ports:
       - "{{ ara_server_host }}:{{ ara_server_port }}:8000"
     depends_on:
-      - database
+      - mariadb
     healthcheck:
       test: curl --silent --fail --basic --user $$ARA_API_USERNAME:$$ARA_API_PASSWORD http://localhost:8000
-  database:
+  mariadb:
     restart: unless-stopped
     image: "{{ mariadb_image }}"
     env_file:
-      - "{{ manager_configuration_directory }}/database.env"
+      - "{{ manager_configuration_directory }}/mariadb.env"
     volumes:
       - "mariadb:/var/lib/mysql"
     healthcheck:
       test: mysqladmin status -h localhost -u $$MYSQL_USER -p$$MYSQL_PASSWORD || exit 1
 {% endif %}
+{% if awx_enable %}
+  awx_web:
+    image: "{{ awx_image }}"
+    command: /run.sh
+    restart: unless-stopped
+    hostname: awxweb
+    user: root
+    depends_on:
+      - memcached
+      - postgres
+      - redis
+    volumes:
+      - "/etc/hosts:/etc/hosts:ro"
+      - "{{ manager_configuration_directory }}/SECRET_KEY:/etc/tower/SECRET_KEY"
+      - "{{ manager_configuration_directory }}/awx.env:/etc/tower/conf.d/environment.sh"
+      - "{{ manager_configuration_directory }}/credentials.py:/etc/tower/conf.d/credentials.py"
+      - "{{ manager_configuration_directory }}/nginx.conf:/etc/nginx/nginx.conf:ro"
+      - "{{ manager_configuration_directory }}/settings.py:/etc/tower/settings.py"
+      - "{{ manager_configuration_directory }}/tower_cli.cfg:/etc/tower/tower_cli.cfg"
+      - "{{ configuration_directory }}:/opt/configuration:ro"
+      - "{{ secrets_directory }}:/ansible/secrets:ro"
+      - "awx_logs:/ansible/logs"
+      - "awx_share:/share"
+    ports:
+      - "{{ awx_server_host }}:{{ awx_server_port }}:8052"
+    env_file:
+      - "{{ manager_configuration_directory }}/awx.env"
+  awx_task:
+    image: "{{ awx_image }}"
+    command: /run.sh
+    restart: unless-stopped
+    hostname: awx
+    user: root
+    depends_on:
+      - memcached
+      - postgres
+      - redis
+{% if ara_enable %}
+      - ara-server
+{% endif %}
+    volumes:
+      - "/etc/hosts:/etc/hosts:ro"
+      - "{{ manager_configuration_directory }}/SECRET_KEY:/etc/tower/SECRET_KEY"
+      - "{{ manager_configuration_directory }}/awx.env:/etc/tower/conf.d/environment.sh"
+      - "{{ manager_configuration_directory }}/credentials.py:/etc/tower/conf.d/credentials.py"
+      - "{{ manager_configuration_directory }}/settings.py:/etc/tower/settings.py"
+      - "{{ manager_configuration_directory }}/tower_cli.cfg:/etc/tower/tower_cli.cfg"
+      - "{{ configuration_directory }}:/opt/configuration:ro"
+      - "{{ secrets_directory }}:/ansible/secrets:ro"
+      - "awx_logs:/ansible/logs"
+      - "awx_share:/share"
+    env_file:
+      - "{{ manager_configuration_directory }}/awx.env"
+{% if ara_enable %}
+      - "{{ manager_configuration_directory }}/ara.env"
+{% endif %}
+  postgres:
+    image: "{{ postgres_image }}"
+    restart: unless-stopped
+    env_file:
+      - "{{ manager_configuration_directory }}/postgres.env"
+    volumes:
+      - postgres:/var/lib/postgresql/data
+  memcached:
+    image: "{{ memcached_image }}"
+    restart: unless-stopped
+{% endif %}
 volumes:
+{% if awx_enable %}
+  awx_share:
+  awx_logs:
+  postgres:
+{% endif %}
   cache:
   logs:
 {% if ara_enable %}
