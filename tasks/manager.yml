@@ -11,7 +11,7 @@
     - "{{ manager_docker_compose_directory }}"
     - "{{ manager_configuration_directory }}"
 
-- name: Copy environment files
+- name: Copy environment files required by ARA
   template:
     src: "env/{{ item }}.env.j2"
     dest: "{{ manager_configuration_directory }}/{{ item }}.env"
@@ -21,8 +21,35 @@
   with_items:
     - ara
     - ara-server
-    - database
+    - mariadb
   when: ara_enable|bool
+
+- name: Copy environment files required by AWX
+  template:
+    src: "env/{{ item }}.env.j2"
+    dest: "{{ manager_configuration_directory }}/{{ item }}.env"
+    mode: 0644
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+  with_items:
+    - awx
+    - postgres
+  when: awx_enable|bool
+
+- name: Copy configuration files required by AWX
+  template:
+    src: "awx/{{ item }}.j2"
+    dest: "{{ manager_configuration_directory }}/{{ item }}"
+    mode: 0644
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+  with_items:
+    - SECRET_KEY
+    - credentials.py
+    - nginx.conf
+    - settings.py
+    - tower_cli.cfg
+  when: awx_enable|bool
 
 - name: Copy docker-compose.yml file
   template:

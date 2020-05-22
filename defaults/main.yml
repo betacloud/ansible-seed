@@ -102,6 +102,36 @@ mariadb_tag: 10.5
 mariadb_image: "{{ docker_registry }}/library/mariadb:{{ mariadb_tag }}"
 
 ##########################
+# awx
+
+awx_enable: false
+
+awx_username: "{{ operator_user }}"
+awx_password: password
+
+awx_secret_key: eilai0XezeewaGhah2liequoh4ea2yiX
+
+awx_server_host: "{{ ansible_default_ipv4.address }}"
+awx_server_port: 8052
+
+awx_tag: latest
+awx_image: "{{ docker_registry }}/osism/manager:{{ awx_tag }}"
+
+# postgres
+
+postgres_tag: 9.6-alpine
+postgres_image: "{{ docker_registry }}/library/postgres:{{ postgres_tag }}"
+
+awx_postgres_username: ara
+awx_postgres_password: password
+awx_postgres_databasename: "{{ awx_postgres_username }}"
+
+# memcached
+
+memcached_tag: alpine
+memcached_image: "{{ docker_registry }}/library/memcached:{{ memcached_tag }}"
+
+##########################
 # wrapper
 
 wrapper_scripts:
