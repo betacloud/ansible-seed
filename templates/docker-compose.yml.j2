@@ -138,6 +138,10 @@ services:
       - "{{ awx_server_host }}:{{ awx_server_port }}:8052"
     env_file:
       - "{{ manager_configuration_directory }}/awx.env"
+    cap_add:
+      - SYS_ADMIN
+    security_opt:
+      - apparmor:unconfined
   awx_task:
     image: "{{ awx_image }}"
     command: /run.sh
@@ -167,6 +171,10 @@ services:
 {% if ara_enable %}
       - "{{ manager_configuration_directory }}/ara.env"
 {% endif %}
+    cap_add:
+      - SYS_ADMIN
+    security_opt:
+      - apparmor:unconfined
   postgres:
     image: "{{ postgres_image }}"
     restart: unless-stopped
