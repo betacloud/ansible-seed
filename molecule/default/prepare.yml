@@ -8,6 +8,7 @@
   roles:
     - role: osism.operator
     - role: osism.docker
+    - role: osism.docker-compose
 
   tasks:
     - name: Copy ssh private key for operator user
