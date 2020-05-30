@@ -9,8 +9,6 @@ galaxy_info:
     - name: Ubuntu
       versions:
         - bionic
-        - focal
-        - xenial
   galaxy_tags:
     - system
 dependencies: []
