@@ -4,6 +4,7 @@
 
   vars:
     docker_configure_repository: yes
+    docker_compose_install_type: package
 
   roles:
     - role: osism.operator
