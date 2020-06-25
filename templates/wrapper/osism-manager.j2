@@ -26,8 +26,8 @@ if [[ ! -x "$(command -v ansible-playbook)" ]]; then
     fi
 fi
 
-if [[ ! -e roles ]]; then
-    ansible-galaxy install -f git+https://github.com/osism/ansible-manager.git,$MANAGER_VERSION,osism.manager
+if [[ ! -e {{ configuration_directory }}/environments/manager/roles ]]; then
+    ansible-galaxy install -p {{ configuration_directory }}/environments/manager/roles -f git+https://github.com/osism/ansible-manager.git,$MANAGER_VERSION,osism.manager
 fi
 
 ansible-playbook \
