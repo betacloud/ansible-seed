@@ -1,0 +1,12 @@
+---
+- name: Copy environment files required by ARA
+  template:
+    src: "env/{{ item }}.env.j2"
+    dest: "{{ manager_configuration_directory }}/{{ item }}.env"
+    mode: 0644
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+  with_items:
+    - ara
+    - ara-server
+    - mariadb
