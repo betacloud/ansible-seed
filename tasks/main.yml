@@ -17,11 +17,19 @@
     - "{{ ansible_directory }}"
     - "{{ archive_directory }}"
     - "{{ secrets_directory }}"
+    - "{{ manager_docker_compose_directory }}"
+    - "{{ manager_configuration_directory }}"
   become: true
 
-- name: manager - include tasks
-  include: manager.yml
-  tags: manager
+- name: ara - include tasks
+  include: ara.yml
+  tags: ara
+  when: ara_enable|bool
+
+- name: awx - include tasks
+  include: awx.yml
+  tags: awx
+  when: awx_enable|bool
 
 - name: ansible - include tasks
   include: ansible.yml
@@ -30,3 +38,7 @@
 - name: wrapper - include tasks
   include: wrapper.yml
   tags: wrapper
+
+- name: service - include tasks
+  include: service.yml
+  tags: service

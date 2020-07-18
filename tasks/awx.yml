@@ -1,0 +1,25 @@
+---
+- name: Copy environment files required by AWX
+  template:
+    src: "env/{{ item }}.env.j2"
+    dest: "{{ manager_configuration_directory }}/{{ item }}.env"
+    mode: 0644
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+  with_items:
+    - awx
+    - postgres
+
+- name: Copy configuration files required by AWX
+  template:
+    src: "awx/{{ item }}.j2"
+    dest: "{{ manager_configuration_directory }}/{{ item }}"
+    mode: 0644
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+  with_items:
+    - SECRET_KEY
+    - credentials.py
+    - nginx.conf
+    - settings.py
+    - tower_cli.cfg
