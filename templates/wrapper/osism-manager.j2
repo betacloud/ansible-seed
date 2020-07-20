@@ -7,7 +7,7 @@ MANAGER_VERSION=${MANAGER_VERSION:-master}
 PLAYBOOK=${PLAYBOOK:-playbook-manager.yml}
 VENV_PATH=${VENV_PATH:-.venv}
 
-pushd {{ configuration_directory }}/environments/manager
+pushd {{ configuration_directory }}/environments/manager > /dev/null
 
 [[ -e $PLAYBOOK ]] >/dev/null 2>&1 || { echo >&2 "$PLAYBOOK is not a playbook"; exit 1; }
 
@@ -41,4 +41,4 @@ ansible-playbook \
     -u $ANSIBLE_USER \
     $PLAYBOOK "$@"
 
-popd
+popd > /dev/null
