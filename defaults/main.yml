@@ -3,6 +3,9 @@
 # docker
 
 docker_registry: index.docker.io
+docker_registry_service: "{{ docker_registry }}"
+docker_registry_ansible: "{{ docker_registry }}"
+
 manager_network: 172.31.101.0/28
 
 ##########################
@@ -43,7 +46,7 @@ required_packages_manager:
 osism_ansible_container_name: manager_osism-ansible_1
 
 osism_ansible_tag: latest
-osism_ansible_image: "{{ docker_registry }}/osism/osism-ansible:{{ osism_ansible_tag }}"
+osism_ansible_image: "{{ docker_registry_ansible }}/osism/osism-ansible:{{ osism_ansible_tag }}"
 
 ##########################
 # ceph-ansible helper
@@ -53,7 +56,7 @@ ceph_ansible_enable: true
 ceph_ansible_container_name: manager_ceph-ansible_1
 
 ceph_ansible_tag: nautilus
-ceph_ansible_image: "{{ docker_registry }}/osism/ceph-ansible:{{ ceph_ansible_tag }}"
+ceph_ansible_image: "{{ docker_registry_ansible }}/osism/ceph-ansible:{{ ceph_ansible_tag }}"
 
 ##########################
 # kolla-ansible helper
@@ -63,7 +66,7 @@ kolla_ansible_enable: true
 kolla_ansible_container_name: manager_kolla-ansible_1
 
 kolla_ansible_tag: train
-kolla_ansible_image: "{{ docker_registry }}/osism/kolla-ansible:{{ kolla_ansible_tag }}"
+kolla_ansible_image: "{{ docker_registry_ansible }}/osism/kolla-ansible:{{ kolla_ansible_tag }}"
 
 ##########################
 # redis
@@ -71,7 +74,7 @@ kolla_ansible_image: "{{ docker_registry }}/osism/kolla-ansible:{{ kolla_ansible
 redis_enable: true
 
 redis_tag: 6-alpine
-redis_image: "{{ docker_registry }}/library/redis:{{ redis_tag }}"
+redis_image: "{{ docker_registry_service }}/library/redis:{{ redis_tag }}"
 
 ##########################
 # ara
@@ -87,7 +90,7 @@ ara_server_host: "{{ ansible_default_ipv4.address }}"
 ara_server_port: 8120
 
 ara_server_tag: 1.4.0
-ara_server_image: "{{ docker_registry }}/osism/ara-server:{{ ara_server_tag }}"
+ara_server_image: "{{ docker_registry_service }}/osism/ara-server:{{ ara_server_tag }}"
 
 # mariadb (used by ara)
 
@@ -99,7 +102,7 @@ ara_server_mariadb_password: password
 ara_server_mariadb_databasename: "{{ ara_server_mariadb_username }}"
 
 mariadb_tag: 10.5
-mariadb_image: "{{ docker_registry }}/library/mariadb:{{ mariadb_tag }}"
+mariadb_image: "{{ docker_registry_service }}/library/mariadb:{{ mariadb_tag }}"
 
 ##########################
 # awx
@@ -115,12 +118,12 @@ awx_server_host: "{{ ansible_default_ipv4.address }}"
 awx_server_port: 8052
 
 awx_tag: latest
-awx_image: "{{ docker_registry }}/osism/manager:{{ awx_tag }}"
+awx_image: "{{ docker_registry_ansible }}/osism/manager:{{ awx_tag }}"
 
 # postgres
 
 postgres_tag: 9.6-alpine
-postgres_image: "{{ docker_registry }}/library/postgres:{{ postgres_tag }}"
+postgres_image: "{{ docker_registry_service }}/library/postgres:{{ postgres_tag }}"
 
 awx_postgres_username: ara
 awx_postgres_password: password
@@ -129,7 +132,7 @@ awx_postgres_databasename: "{{ awx_postgres_username }}"
 # memcached
 
 memcached_tag: alpine
-memcached_image: "{{ docker_registry }}/library/memcached:{{ memcached_tag }}"
+memcached_image: "{{ docker_registry_service }}/library/memcached:{{ memcached_tag }}"
 
 ##########################
 # wrapper
