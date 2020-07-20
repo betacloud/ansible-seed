@@ -152,6 +152,8 @@ services:
       - SYS_ADMIN
     security_opt:
       - apparmor:unconfined
+    healthcheck:
+      test: curl --silent --fail http://localhost:8052
   awx_task:
     image: "{{ awx_image }}"
     command: /run.sh
@@ -194,9 +196,13 @@ services:
       - "{{ manager_configuration_directory }}/postgres.env"
     volumes:
       - postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: pg_isready -U postgres
   memcached:
     image: "{{ memcached_image }}"
     restart: unless-stopped
+    healthcheck:
+      test: nc -z 127.0.0.1 11211
 {% endif %}
 volumes:
 {% if awx_enable %}
