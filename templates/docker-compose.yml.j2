@@ -146,6 +146,8 @@ services:
       - "awx_share:/share"
     ports:
       - "{{ awx_server_host }}:{{ awx_server_port }}:8052"
+    environment:
+      WAIT_HOSTS: memcached:11211, redis:6379, postgres:5432
     env_file:
       - "{{ manager_configuration_directory }}/awx.env"
     cap_add:
