@@ -22,4 +22,3 @@
     - credentials.py
     - nginx.conf
     - settings.py
-    - tower_cli.cfg
