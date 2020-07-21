@@ -155,7 +155,7 @@ services:
     security_opt:
       - apparmor:unconfined
     healthcheck:
-      test: curl --silent --fail http://localhost:8052
+      test: curl --silent --fail http://localhost:8052/api/v2
   awx_task:
     image: "{{ awx_image }}"
     command: /run.sh
