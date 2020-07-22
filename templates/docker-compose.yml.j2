@@ -130,6 +130,9 @@ services:
       - memcached
       - postgres
       - redis
+{% if awx_vault_type == 'vault' %}
+      - vault
+{% endif %}
     volumes:
       - /etc/hosts:/etc/hosts:ro
       - /etc/localtime:/etc/localtime:ro
@@ -146,7 +149,7 @@ services:
     ports:
       - "{{ awx_server_host }}:{{ awx_server_port }}:8052"
     environment:
-      WAIT_HOSTS: memcached:11211, redis:6379, postgres:5432
+      WAIT_HOSTS: memcached:11211, redis:6379, postgres:5432, vault:8200
     env_file:
       - "{{ manager_configuration_directory }}/awx.env"
     cap_add:
@@ -165,6 +168,9 @@ services:
       - memcached
       - postgres
       - redis
+{% if awx_vault_type == 'vault' %}
+      - vault
+{% endif %}
 {% if ara_enable %}
       - ara-server
 {% endif %}
@@ -203,12 +209,32 @@ services:
     restart: unless-stopped
     healthcheck:
       test: nc -z 127.0.0.1 11211
+{% if awx_vault_type == 'vault' %}
+  vault:
+    image: "{{ vault_image }}"
+    command: server -config=/vault/config -dev -dev-root-token-id={{ vault_token }} -dev-listen-address=0.0.0.0:8200
+    restart: unless-stopped
+    ports:
+      - "{{ vault_host }}:{{ vault_port }}:8200"
+    env_file:
+      - "{{ manager_configuration_directory }}/vault.env"
+# NOTE: during the TP the service runs in-memory
+#    volumes:
+#      - vault:/vault/file
+    cap_add:
+      - IPC_LOCK
+    healthcheck:
+      test: nc -z 127.0.0.1 8200
+{% endif %}
 {% endif %}
 volumes:
 {% if awx_enable %}
   awx_share:
   awx_logs:
   postgres:
+{% if awx_vault_type == 'vault' %}
+  vault:
+{% endif %}
 {% endif %}
   cache:
   logs:

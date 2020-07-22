@@ -1,5 +1,5 @@
 ---
-- name: Copy environment files required by AWX
+- name: Copy AWX environment files
   template:
     src: "env/{{ item }}.env.j2"
     dest: "{{ manager_configuration_directory }}/{{ item }}.env"
@@ -10,7 +10,7 @@
     - awx
     - postgres
 
-- name: Copy configuration files required by AWX
+- name: Copy AWX configuration files
   template:
     src: "awx/{{ item }}.j2"
     dest: "{{ manager_configuration_directory }}/{{ item }}"

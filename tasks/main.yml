@@ -1,44 +1,16 @@
 ---
-- name: Install required packages
-  package:
-    name: "{{ item }}"
-    state: present
-  with_items: "{{ required_packages_manager }}"
-  become: true
+- name: Include install tasks
+  include: "install-{{ ansible_os_family }}.yml"
+  tags: install
 
-- name: Create required directories
-  file:
-    path: "{{ item }}"
-    state: directory
-    owner: "{{ operator_user }}"
-    group: "{{ operator_group }}"
-    mode: 0750
-  with_items:
-    - "{{ ansible_directory }}"
-    - "{{ archive_directory }}"
-    - "{{ secrets_directory }}"
-    - "{{ manager_docker_compose_directory }}"
-    - "{{ manager_configuration_directory }}"
-  become: true
+- name: Include config tasks
+  include_tasks: config.yml
+  tags: config
 
-- name: ara - include tasks
-  include: ara.yml
-  tags: ara
-  when: ara_enable|bool
-
-- name: awx - include tasks
-  include: awx.yml
-  tags: awx
-  when: awx_enable|bool
-
-- name: ansible - include tasks
-  include: ansible.yml
-  tags: ansible
-
-- name: wrapper - include tasks
-  include: wrapper.yml
-  tags: wrapper
-
-- name: service - include tasks
-  include: service.yml
+- name: Include service tasks
+  include_tasks: service.yml
   tags: service
+
+- name: Include initialize tasks
+  include: initialize.yml
+  tags: initialize
