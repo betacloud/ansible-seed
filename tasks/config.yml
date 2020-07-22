@@ -1,0 +1,40 @@
+---
+- name: Create required directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+    mode: 0750
+  with_items:
+    - "{{ ansible_directory }}"
+    - "{{ archive_directory }}"
+    - "{{ secrets_directory }}"
+    - "{{ manager_docker_compose_directory }}"
+    - "{{ manager_configuration_directory }}"
+  become: true
+
+- name: Include ara config tasks
+  include_tasks: config-ara.yml
+  tags: ara
+  when: ara_enable|bool
+
+- name: Include awx config tasks
+  include_tasks: config-awx.yml
+  tags: awx
+  when: awx_enable|bool
+
+- name: Include vault config tasks
+  include_tasks: config-vault.yml
+  tags: vault
+  when:
+    - awx_enable|bool
+    - awx_vault_type == 'vault'
+
+- name: Include ansible config tasks
+  include_tasks: config-ansible.yml
+  tags: ansible
+
+- name: Include wrapper config tasks
+  include_tasks: config-wrapper.yml
+  tags: wrapper

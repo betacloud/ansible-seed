@@ -1,5 +1,5 @@
 ---
-- name: Copy environment files required by ARA
+- name: Copy ARA environment files
   template:
     src: "env/{{ item }}.env.j2"
     dest: "{{ manager_configuration_directory }}/{{ item }}.env"
