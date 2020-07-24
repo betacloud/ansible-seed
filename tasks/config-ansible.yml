@@ -6,5 +6,5 @@
     owner: "{{ operator_user }}"
     mode: 0600
   become: true
-  with_dict: "{{ private_keys }}"
+  loop: "{{ private_keys|dict2items }}"
   no_log: true

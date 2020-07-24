@@ -6,7 +6,7 @@
     owner: "{{ operator_user }}"
     group: "{{ operator_group }}"
     mode: 0750
-  with_items:
+  loop:
     - "{{ ansible_directory }}"
     - "{{ archive_directory }}"
     - "{{ secrets_directory }}"
