@@ -3,5 +3,5 @@
   package:
     name: "{{ item }}"
     state: present
-  with_items: "{{ required_packages_manager }}"
+  loop: "{{ required_packages_manager }}"
   become: true
