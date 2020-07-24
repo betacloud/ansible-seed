@@ -32,7 +32,7 @@ fi
 
 ansible-playbook \
     --private-key /opt/ansible/secrets/id_rsa.operator \
-    -i {{ configuration_directory }}/inventory/hosts \
+    -i {{ configuration_directory }}/inventory \
     -e @{{ configuration_directory }}/environments/images.yml \
     -e @{{ configuration_directory }}/environments/configuration.yml \
     -e @{{ configuration_directory }}/environments/secrets.yml \
