@@ -20,6 +20,7 @@ secrets_directory: /opt/ansible/secrets
 
 manager_docker_compose_directory: /opt/manager
 manager_configuration_directory: /opt/manager/configuration
+manager_secrets_directory: /opt/manager/secrets
 
 ##########################
 # operator user
@@ -105,6 +106,16 @@ mariadb_tag: 10.5
 mariadb_image: "{{ docker_registry_service }}/library/mariadb:{{ mariadb_tag }}"
 
 ##########################
+# postgres
+
+postgres_enable: "{{ awx_enable|bool }}"
+
+postgres_tag: 12-alpine
+postgres_image: "{{ docker_registry_service }}/library/postgres:{{ postgres_tag }}"
+
+postgres_password: password
+
+##########################
 # awx
 
 awx_enable: false
@@ -122,10 +133,7 @@ awx_image: "{{ docker_registry_ansible }}/osism/manager:{{ awx_tag }}"
 
 # postgres
 
-postgres_tag: 9.6-alpine
-postgres_image: "{{ docker_registry_service }}/library/postgres:{{ postgres_tag }}"
-
-awx_postgres_username: ara
+awx_postgres_username: awx
 awx_postgres_password: password
 awx_postgres_databasename: "{{ awx_postgres_username }}"
 

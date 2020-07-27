@@ -1,10 +1,10 @@
 ---
-version: '3'
+version: '3.5'
 services:
   osism-ansible:
     restart: unless-stopped
     image: "{{ osism_ansible_image }}"
-{% if ara_enable %}
+{% if ara_enable|bool %}
     env_file:
       - "{{ manager_configuration_directory }}/ara.env"
 {% endif %}
@@ -20,17 +20,17 @@ services:
       - "{{ configuration_directory }}:/opt/configuration:ro"
       - "{{ secrets_directory }}:/ansible/secrets:ro"
     depends_on:
-{% if redis_enable %}
+{% if redis_enable|bool %}
       - redis
 {% endif %}
-{% if ara_enable %}
+{% if ara_enable|bool %}
       - ara-server
 {% endif %}
-{% if ceph_ansible_enable %}
+{% if ceph_ansible_enable|bool %}
   ceph-ansible:
     restart: unless-stopped
     image: "{{ ceph_ansible_image }}"
-{% if ara_enable %}
+{% if ara_enable|bool %}
     env_file:
       - "{{ manager_configuration_directory }}/ara.env"
 {% endif %}
@@ -45,18 +45,18 @@ services:
       - "{{ configuration_directory }}:/opt/configuration:ro"
       - "{{ secrets_directory }}:/ansible/secrets:ro"
     depends_on:
-{% if redis_enable %}
+{% if redis_enable|bool %}
       - redis
 {% endif %}
-{% if ara_enable %}
+{% if ara_enable|bool %}
       - ara-server
 {% endif %}
 {% endif %}
-{% if kolla_ansible_enable %}
+{% if kolla_ansible_enable|bool %}
   kolla-ansible:
     restart: unless-stopped
     image: "{{ kolla_ansible_image }}"
-{% if ara_enable %}
+{% if ara_enable|bool %}
     env_file:
       - "{{ manager_configuration_directory }}/ara.env"
 {% endif %}
@@ -71,14 +71,14 @@ services:
       - "{{ configuration_directory }}:/opt/configuration:ro"
       - "{{ secrets_directory }}:/ansible/secrets:ro"
     depends_on:
-{% if redis_enable %}
+{% if redis_enable|bool %}
       - redis
 {% endif %}
-{% if ara_enable %}
+{% if ara_enable|bool %}
       - ara-server
 {% endif %}
 {% endif %}
-{% if redis_enable %}
+{% if redis_enable|bool %}
   redis:
     restart: unless-stopped
     image: "{{ redis_image }}"
@@ -92,7 +92,7 @@ services:
         aliases:
           - cache
 {% endif %}
-{% if ara_enable %}
+{% if ara_enable|bool %}
   ara-server:
     restart: unless-stopped
     image: "{{ ara_server_image }}"
@@ -119,7 +119,7 @@ services:
     healthcheck:
       test: mysqladmin status -h localhost -u $$MYSQL_USER -p$$MYSQL_PASSWORD || exit 1
 {% endif %}
-{% if awx_enable %}
+{% if awx_enable|bool %}
   awx-web:
     image: "{{ awx_image }}"
     command: /run.sh
@@ -171,7 +171,7 @@ services:
 {% if awx_vault_type == 'vault' %}
       - vault
 {% endif %}
-{% if ara_enable %}
+{% if ara_enable|bool %}
       - ara-server
 {% endif %}
     volumes:
@@ -188,22 +188,13 @@ services:
       - "awx_share:/share"
     env_file:
       - "{{ manager_configuration_directory }}/awx.env"
-{% if ara_enable %}
+{% if ara_enable|bool %}
       - "{{ manager_configuration_directory }}/ara.env"
 {% endif %}
     cap_add:
       - SYS_ADMIN
     security_opt:
       - apparmor:unconfined
-  postgres:
-    image: "{{ postgres_image }}"
-    restart: unless-stopped
-    env_file:
-      - "{{ manager_configuration_directory }}/postgres.env"
-    volumes:
-      - postgres:/var/lib/postgresql/data
-    healthcheck:
-      test: pg_isready -U postgres
   memcached:
     image: "{{ memcached_image }}"
     restart: unless-stopped
@@ -227,24 +218,46 @@ services:
       test: nc -z 127.0.0.1 8200
 {% endif %}
 {% endif %}
+{% if postgres_enable|bool %}
+  postgres:
+    image: "{{ postgres_image }}"
+    restart: unless-stopped
+    env_file:
+      - "{{ manager_configuration_directory }}/postgres.env"
+    volumes:
+      - "{{ manager_configuration_directory }}/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d:ro"
+      - postgres:/var/lib/postgresql/data
+    secrets:
+      - POSTGRES_PASSWORD
+    healthcheck:
+      test: pg_isready -U postgres
+{% endif %}
 volumes:
-{% if awx_enable %}
+{% if postgres_enable|bool %}
+  postgres:
+{% endif %}
+{% if awx_enable|bool %}
   awx_share:
   awx_logs:
-  postgres:
 {% if awx_vault_type == 'vault' %}
   vault:
 {% endif %}
 {% endif %}
   cache:
   logs:
-{% if ara_enable %}
+{% if ara_enable|bool %}
   mariadb:
 {% endif %}
-{% if redis_enable %}
+{% if redis_enable|bool %}
   redis:
 {% endif %}
   share:
+
+{% if postgres_enable|bool %}
+secrets:
+  POSTGRES_PASSWORD:
+    file: {{ manager_secrets_directory }}/POSTGRES_PASSWORD
+{% endif %}
 
 networks:
  default:
