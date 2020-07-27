@@ -120,7 +120,7 @@ services:
       test: mysqladmin status -h localhost -u $$MYSQL_USER -p$$MYSQL_PASSWORD || exit 1
 {% endif %}
 {% if awx_enable %}
-  awx_web:
+  awx-web:
     image: "{{ awx_image }}"
     command: /run.sh
     restart: unless-stopped
