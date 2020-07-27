@@ -112,7 +112,7 @@ awx_enable: false
 awx_username: "{{ operator_user }}"
 awx_password: password
 
-awx_secret_key: eilai0XezeewaGhah2liequoh4ea2yiX
+awx_secret_key: 00000000-0000-0000-0000-000000000000
 
 awx_server_host: "{{ ansible_default_ipv4.address }}"
 awx_server_port: 8052
