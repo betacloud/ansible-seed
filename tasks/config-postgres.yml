@@ -1,0 +1,44 @@
+---
+- name: Copy postgres environment files
+  template:
+    src: "env/{{ item }}.env.j2"
+    dest: "{{ manager_configuration_directory }}/{{ item }}.env"
+    mode: 0640
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+  loop:
+    - postgres
+
+- name: Copy POSTGRES_PASSWORD secret file
+  copy:
+    content: "{{ postgres_password }}"
+    dest: "{{ manager_secrets_directory }}/POSTGRES_PASSWORD"
+    mode: 0644
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+
+- name: Create docker-entrypoint-initdb.d directory
+  file:
+    path: "{{ manager_configuration_directory }}/docker-entrypoint-initdb.d"
+    state: directory
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+    mode: 0755
+  become: true
+
+- name: Create init-awx-database.sh script
+  copy:
+    content: |
+      #!/bin/bash
+      set -e
+
+      psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-EOSQL
+          CREATE USER {{ awx_postgres_username }} WITH PASSWORD '{{ awx_postgres_password }}';
+          CREATE DATABASE {{ awx_postgres_databasename }};
+          GRANT ALL PRIVILEGES ON DATABASE {{ awx_postgres_databasename }} TO {{ awx_postgres_username }};
+          ALTER DATABASE {{ awx_postgres_databasename }} OWNER TO {{ awx_postgres_username }};
+      EOSQL
+    dest: "{{ manager_configuration_directory }}/docker-entrypoint-initdb.d/init-awx-database.sh"
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+    mode: 0755
