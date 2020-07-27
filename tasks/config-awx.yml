@@ -21,3 +21,19 @@
     - credentials.py
     - nginx.conf
     - settings.py
+
+- name: Copy TOWER_PASSWORD secret file
+  copy:
+    content: "{{ awx_password }}"
+    dest: "{{ manager_secrets_directory }}/TOWER_PASSWORD"
+    mode: 0644
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+
+- name: Copy TOWER_USERNAME secret file
+  copy:
+    content: "{{ awx_username }}"
+    dest: "{{ manager_secrets_directory }}/TOWER_USERNAME"
+    mode: 0644
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"

@@ -156,6 +156,9 @@ services:
       - SYS_ADMIN
     security_opt:
       - apparmor:unconfined
+    secrets:
+      - TOWER_PASSWORD
+      - TOWER_USERNAME
     healthcheck:
       test: curl --silent --fail http://localhost:8052/api/v2
   awx-task:
@@ -195,6 +198,9 @@ services:
       - SYS_ADMIN
     security_opt:
       - apparmor:unconfined
+    secrets:
+      - TOWER_PASSWORD
+      - TOWER_USERNAME
   memcached:
     image: "{{ memcached_image }}"
     restart: unless-stopped
@@ -253,10 +259,18 @@ volumes:
 {% endif %}
   share:
 
-{% if postgres_enable|bool %}
+{% if postgres_enable|bool or awx_enable|bool %}
 secrets:
+{% if awx_enable|bool %}
+  TOWER_PASSWORD:
+    file: {{ manager_secrets_directory }}/TOWER_PASSWORD
+  TOWER_USERNAME:
+    file: {{ manager_secrets_directory }}/TOWER_USERNAME
+{% endif %}
+{% if postgres_enable|bool %}
   POSTGRES_PASSWORD:
     file: {{ manager_secrets_directory }}/POSTGRES_PASSWORD
+{% endif %}
 {% endif %}
 
 networks:
