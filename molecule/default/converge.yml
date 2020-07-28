@@ -6,6 +6,7 @@
   vars:
     ansible_ssh_user: dragon
 
+    awx_enable: true
     awx_vault_type: vault
 
     netbox_enable: true
