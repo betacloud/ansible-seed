@@ -120,11 +120,11 @@ services:
       test: mysqladmin status -h localhost -u $$MYSQL_USER -p$$MYSQL_PASSWORD || exit 1
 {% endif %}
 {% if awx_enable|bool %}
-  awx-web:
+  awx-task: &awx
     image: "{{ awx_image }}"
     command: /run.sh
     restart: unless-stopped
-    hostname: awxweb
+    hostname: awx
     user: root
     depends_on:
       - memcached
@@ -146,49 +146,8 @@ services:
       - "{{ secrets_directory }}:/ansible/secrets:ro"
       - "awx_logs:/ansible/logs"
       - "awx_share:/share"
-    ports:
-      - "{{ awx_server_host }}:{{ awx_server_port }}:8052"
     environment:
       WAIT_HOSTS: memcached:11211, redis:6379, postgres:5432, vault:8200
-    env_file:
-      - "{{ manager_configuration_directory }}/awx.env"
-    cap_add:
-      - SYS_ADMIN
-    security_opt:
-      - apparmor:unconfined
-    secrets:
-      - TOWER_PASSWORD
-      - TOWER_USERNAME
-    healthcheck:
-      test: curl --silent --fail http://localhost:8052/api/v2
-  awx-task:
-    image: "{{ awx_image }}"
-    command: /run.sh
-    restart: unless-stopped
-    hostname: awx
-    user: root
-    depends_on:
-      - memcached
-      - postgres
-      - redis
-{% if awx_vault_type == 'vault' %}
-      - vault
-{% endif %}
-{% if ara_enable|bool %}
-      - ara-server
-{% endif %}
-    volumes:
-      - /etc/hosts:/etc/hosts:ro
-      - /etc/localtime:/etc/localtime:ro
-      - /etc/timezone:/etc/timezone:ro
-      - "{{ manager_configuration_directory }}/SECRET_KEY:/etc/tower/SECRET_KEY"
-      - "{{ manager_configuration_directory }}/awx.env:/etc/tower/conf.d/environment.sh"
-      - "{{ manager_configuration_directory }}/credentials.py:/etc/tower/conf.d/credentials.py"
-      - "{{ manager_configuration_directory }}/settings.py:/etc/tower/settings.py"
-      - "{{ configuration_directory }}:/opt/configuration:ro"
-      - "{{ secrets_directory }}:/ansible/secrets:ro"
-      - "awx_logs:/ansible/logs"
-      - "awx_share:/share"
     env_file:
       - "{{ manager_configuration_directory }}/awx.env"
 {% if ara_enable|bool %}
@@ -201,6 +160,15 @@ services:
     secrets:
       - TOWER_PASSWORD
       - TOWER_USERNAME
+  awx-web:
+    <<: *awx
+    hostname: awxweb
+    ports:
+      - "{{ awx_server_host }}:{{ awx_server_port }}:8052"
+    env_file:
+      - "{{ manager_configuration_directory }}/awx.env"
+    healthcheck:
+      test: curl --silent --fail http://localhost:8052/api/v2
   memcached:
     image: "{{ memcached_image }}"
     restart: unless-stopped
