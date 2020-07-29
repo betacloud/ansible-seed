@@ -115,6 +115,7 @@ services:
     security_opt:
       - apparmor:unconfined
     secrets:
+      - TOWER_SECRET_KEY
       - TOWER_PASSWORD
       - TOWER_USERNAME
   awx-web:
@@ -158,6 +159,50 @@ services:
     healthcheck:
       test: pg_isready -U postgres
 {% endif %}
+
+{% if netbox_enable|bool %}
+  netbox: &netbox
+    image: "{{ netbox_image }}"
+    restart: unless-stopped
+    user: "{{ netbox_userid }}"
+    env_file:
+      - "{{ manager_configuration_directory }}/netbox.env"
+    depends_on:
+      - postgres
+      - redis
+      - netbox-worker
+    volumes:
+      - "{{ manager_configuration_directory }}/:/etc/netbox/config/:ro"
+      - "{{ manager_configuration_directory }}/gunicorn_config.py:/etc/netbox/config/gunicorn_config.py:ro"
+      - netbox-nginx-config:/etc/netbox-nginx:rw
+      - netbox-static-files:/opt/netbox/netbox/static:rw
+      - netbox-media-files:/opt/netbox/netbox/media:rw
+    secrets:
+      - NETBOX_POSTGRES_PASSWORD
+      - NETBOX_SECRET_KEY
+
+  netbox-worker:
+    <<: *netbox
+    depends_on:
+      - redis
+    entrypoint: python3 /opt/netbox/netbox/manage.py
+    command: rqworker
+
+  netbox-nginx:
+    image: "{{ netbox_nginx_image }}"
+    restart: unless-stopped
+    command: nginx -c /etc/netbox-nginx/nginx.conf
+    depends_on:
+      - netbox
+    ports:
+      - "{{ netbox_host }}:{{ netbox_port }}:8000"
+    volumes:
+      - netbox-static-files:/opt/netbox/netbox/static:ro
+      - netbox-nginx-config:/etc/netbox-nginx/:ro
+    healthcheck:
+      test: curl --silent --fail http://localhost:8080
+{% endif %}
+
 volumes:
 {% if postgres_enable|bool %}
   postgres:
@@ -177,6 +222,11 @@ volumes:
 {% if redis_enable|bool %}
   redis:
 {% endif %}
+{% if netbox_enable|bool %}
+  netbox-nginx-config:
+  netbox-static-files:
+  netbox-media-files:
+{% endif %}
   share:
 
 {% if postgres_enable|bool or awx_enable|bool %}
@@ -186,6 +236,14 @@ secrets:
     file: {{ manager_secrets_directory }}/TOWER_PASSWORD
   TOWER_USERNAME:
     file: {{ manager_secrets_directory }}/TOWER_USERNAME
+  TOWER_SECRET_KEY:
+    file: {{ manager_secrets_directory }}/TOWER_SECRET_KEY
+{% endif %}
+{% if netbox_enable|bool %}
+  NETBOX_POSTGRES_PASSWORD:
+    file: {{ manager_secrets_directory }}/NETBOX_POSTGRES_PASSWORD
+  NETBOX_SECRET_KEY:
+    file: {{ manager_secrets_directory }}/NETBOX_SECRET_KEY
 {% endif %}
 {% if postgres_enable|bool %}
   POSTGRES_PASSWORD:

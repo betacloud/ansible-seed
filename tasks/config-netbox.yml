@@ -1,5 +1,5 @@
 ---
-- name: Copy AWX environment files
+- name: Copy netbox environment files
   template:
     src: "env/{{ item }}.env.j2"
     dest: "{{ manager_configuration_directory }}/{{ item }}.env"
@@ -7,19 +7,18 @@
     owner: "{{ operator_user }}"
     group: "{{ operator_group }}"
   loop:
-    - awx
+    - netbox
 
-- name: Copy AWX configuration files
+- name: Copy netbox configuration files
   template:
-    src: "awx/{{ item }}.j2"
+    src: "netbox/{{ item }}.j2"
     dest: "{{ manager_configuration_directory }}/{{ item }}"
     mode: 0644
     owner: "{{ operator_user }}"
     group: "{{ operator_group }}"
   loop:
-    - credentials.py
-    - nginx.conf
-    - settings.py
+    - configuration.py
+    - gunicorn_config.py
 
 - name: Copy secret files
   copy:
@@ -29,10 +28,8 @@
     owner: "{{ operator_user }}"
     group: "{{ operator_group }}"
   loop:
-    - filename: TOWER_PASSWORD
-      secret: "{{ awx_password }}"
-    - filename: TOWER_USERNAME
-      secret: "{{ awx_username }}"
-    - filename: TOWER_SECRET_KEY
-      secret: "{{ awx_secret_key }}"
+    - filename: NETBOX_POSTGRES_PASSWORD
+      secret: "{{ netbox_postgres_password }}"
+    - filename: NETBOX_SECRET_KEY
+      secret: "{{ netbox_secret_key }}"
   no_log: true

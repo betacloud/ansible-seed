@@ -108,12 +108,41 @@ mariadb_image: "{{ docker_registry_service }}/library/mariadb:{{ mariadb_tag }}"
 ##########################
 # postgres
 
-postgres_enable: "{{ awx_enable|bool }}"
+postgres_enable: "{{ awx_enable|bool or netbox_enable|bool }}"
 
 postgres_tag: 12-alpine
 postgres_image: "{{ docker_registry_service }}/library/postgres:{{ postgres_tag }}"
 
 postgres_password: password
+
+##########################
+# postgres
+
+netbox_enable: false
+
+netbox_secret_key: 00000000-0000-0000-0000-000000000000
+
+netbox_superuser_name: netbox
+netbox_superuser_email: netbox@osism.local
+netbox_superuser_password: password
+netbox_superuser_api_token: 00000000-0000-0000-0000-000000000000
+
+netbox_tag: latest
+netbox_image: "{{ docker_registry_service }}/netboxcommunity/netbox:{{ netbox_tag }}"
+
+netbox_nginx_tag: stable
+netbox_nginx_image: "{{ docker_registry_service }}/library/nginx:{{ netbox_nginx_tag }}"
+
+netbox_host: "{{ ansible_default_ipv4.address }}"
+netbox_port: 8121
+
+netbox_userid: 101
+
+# postgres
+
+netbox_postgres_username: netbox
+netbox_postgres_password: password
+netbox_postgres_databasename: "{{ netbox_postgres_username }}"
 
 ##########################
 # awx

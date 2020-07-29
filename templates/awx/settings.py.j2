@@ -3,9 +3,14 @@
 import os
 
 
-def get_secret():
-    if os.path.exists("/etc/tower/SECRET_KEY"):
-        return open('/etc/tower/SECRET_KEY', 'rb').read().strip()
+def read_secret(secret_name):
+    try:
+        f = open('/run/secrets/' + secret_name, 'r', encoding='utf-8')
+    except EnvironmentError:
+        return ''
+    else:
+        with f:
+            return f.readline().strip()
 
 
 ADMINS = ()
@@ -18,7 +23,7 @@ AWX_ANSIBLE_COLLECTIONS_PATHS = '/var/lib/awx/vendor/awx_ansible_collections'
 
 JOBOUTPUT_ROOT = '/var/lib/awx/job_status'
 
-SECRET_KEY = get_secret()
+SECRET_KEY = read_secret('TOWER_SECRET_KEY')
 
 ALLOWED_HOSTS = ['*']
 
