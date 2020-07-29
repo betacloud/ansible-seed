@@ -173,6 +173,7 @@ services:
     volumes:
       - "{{ manager_configuration_directory }}/:/etc/netbox/config/:ro"
       - "{{ manager_configuration_directory }}/gunicorn_config.py:/etc/netbox/config/gunicorn_config.py:ro"
+      - "{{ manager_configuration_directory }}/netbox/initializers:/opt/netbox/initializers:ro"
       - netbox-nginx-config:/etc/netbox-nginx:rw
       - netbox-static-files:/opt/netbox/netbox/static:rw
       - netbox-media-files:/opt/netbox/netbox/media:rw

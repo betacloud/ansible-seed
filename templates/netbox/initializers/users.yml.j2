@@ -1,0 +1,10 @@
+---
+{{ netbox_ansibleuser_name }}:
+  api_token: "{{ netbox_ansibleuser_api_token }}"
+  # $ ./manage.py shell
+  # > from django.contrib.auth.models import Permission
+  # > print('\n'.join([p.codename for p in Permission.objects.all()]))
+  permissions:
+    - add_device
+    - change_device
+    - view_device
