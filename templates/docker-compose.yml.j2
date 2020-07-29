@@ -172,7 +172,7 @@ services:
       - redis
       - netbox-worker
     volumes:
-      - "{{ manager_configuration_directory }}/:/etc/netbox/config/:ro"
+      - "{{ manager_configuration_directory }}/configuration.py:/etc/netbox/config/configuration.py:ro"
       - "{{ manager_configuration_directory }}/gunicorn_config.py:/etc/netbox/config/gunicorn_config.py:ro"
       - netbox-nginx-config:/etc/netbox-nginx:rw
       - netbox-static-files:/opt/netbox/netbox/static:rw
