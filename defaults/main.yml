@@ -116,7 +116,7 @@ postgres_image: "{{ docker_registry_service }}/library/postgres:{{ postgres_tag 
 postgres_password: password
 
 ##########################
-# postgres
+# netbox
 
 netbox_enable: false
 
@@ -126,6 +126,9 @@ netbox_superuser_name: netbox
 netbox_superuser_email: netbox@osism.local
 netbox_superuser_password: password
 netbox_superuser_api_token: 00000000-0000-0000-0000-000000000000
+
+netbox_ansibleuser_name: ansible
+netbox_ansibleuser_api_token: 11111111-1111-1111-1111-111111111111
 
 netbox_tag: latest
 netbox_image: "{{ docker_registry_service }}/netboxcommunity/netbox:{{ netbox_tag }}"
@@ -137,6 +140,14 @@ netbox_host: "{{ ansible_default_ipv4.address }}"
 netbox_port: 8121
 
 netbox_userid: 101
+
+netbox_initializers:
+  - device_roles
+  - device_types
+  - manufacturers
+  - prefix_vlan_roles
+  - sites
+  - users
 
 # postgres
 

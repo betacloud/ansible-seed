@@ -1,4 +1,15 @@
 ---
+- name: Create directories required by netbox
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+    mode: 0755
+  loop:
+    - "{{ manager_configuration_directory }}/netbox/initializers"
+  become: true
+
 - name: Copy netbox environment files
   template:
     src: "env/{{ item }}.env.j2"
@@ -33,3 +44,12 @@
     - filename: NETBOX_SECRET_KEY
       secret: "{{ netbox_secret_key }}"
   no_log: true
+
+- name: Deploy initializers for netbox
+  template:
+    src: "netbox/initializers/{{ item }}.yml.j2"
+    dest: "{{ manager_configuration_directory }}/netbox/initializers/{{ item }}.yml"
+    mode: 0644
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
+  loop: "{{ netbox_initializers }}"
