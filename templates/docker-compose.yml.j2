@@ -62,7 +62,7 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
     ports:
-      - "{{ ara_server_host }}:{{ ara_server_port }}:8080"
+      - "{{ ara_server_host }}:{{ ara_server_port }}:8000"
     depends_on:
       - mariadb
     healthcheck:
@@ -195,7 +195,7 @@ services:
     depends_on:
       - netbox
     ports:
-      - "{{ netbox_host }}:{{ netbox_port }}:8000"
+      - "{{ netbox_host }}:{{ netbox_port }}:8080"
     volumes:
       - netbox-static-files:/opt/netbox/netbox/static:ro
       - netbox-nginx-config:/etc/netbox-nginx/:ro
