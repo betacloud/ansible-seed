@@ -87,7 +87,7 @@ services:
     depends_on:
       - postgres
       - redis
-{% if awx_vault_type == 'vault' %}
+{% if vault_enable|bool %}
       - vault
 {% endif %}
     volumes:
@@ -126,7 +126,7 @@ services:
       - "{{ manager_configuration_directory }}/awx.env"
     healthcheck:
       test: curl --silent --fail http://localhost:8052/api/v2
-{% if awx_vault_type == 'vault' %}
+{% if vault_enable|bool %}
   vault:
     image: "{{ vault_image }}"
     command: server -config=/vault/config -dev -dev-root-token-id={{ vault_token }} -dev-listen-address=0.0.0.0:8200
@@ -212,7 +212,7 @@ volumes:
 {% if awx_enable|bool %}
   awx_share:
   awx_logs:
-{% if awx_vault_type == 'vault' %}
+{% if vault_enable|bool %}
   vault:
 {% endif %}
 {% endif %}

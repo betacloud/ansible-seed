@@ -33,9 +33,7 @@
 - name: Include vault config tasks
   include_tasks: config-vault.yml
   tags: vault
-  when:
-    - awx_enable|bool
-    - awx_vault_type == 'vault'
+  when: vault_enable|bool
 
 - name: Include config tasks
   include_tasks: config-netbox.yml

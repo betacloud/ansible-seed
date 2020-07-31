@@ -1,4 +1,4 @@
 ---
 - name: Include vault initialize tasks
   include_tasks: initialize-vault.yml
-  when: awx_vault_type == 'vault'
+  when: vault_enable|bool
