@@ -147,6 +147,7 @@ netbox_initializers:
   - manufacturers
   - prefix_vlan_roles
   - sites
+  - tags
   - users
 
 # postgres
