@@ -141,7 +141,12 @@ services:
     cap_add:
       - IPC_LOCK
     healthcheck:
-      test: nc -z 127.0.0.1 8200
+      # NOTE: If Vault is sealed the container is unhealthy
+      #
+      # 0 - unsealed
+      # 1 - error
+      # 2 - sealed
+      test: vault status -address http://127.0.0.1:8200
 {% endif %}
 {% endif %}
 {% if postgres_enable|bool %}
