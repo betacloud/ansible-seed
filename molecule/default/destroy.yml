@@ -10,7 +10,7 @@
       os_server:
         cloud: molecule
         name: "{{ item.name }}"
-        delete_fip: yes
+        delete_fip: true
         state: absent
       register: server
       loop: "{{ molecule_yml.platforms }}"
