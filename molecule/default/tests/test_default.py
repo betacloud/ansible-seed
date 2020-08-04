@@ -12,7 +12,8 @@ import pytest
     ("osism-monitoring"),
     ("osism-openstack"),
     ("osism-run"),
-    ("osism-run-without-secrets")
+    ("osism-run-without-secrets"),
+    ("osism-update-manager")
 ])
 def test_wrapper_script_files(host, name):
     f = host.file("/usr/local/bin/%s" % name)
