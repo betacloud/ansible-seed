@@ -4,8 +4,9 @@ services:
   osism-ansible: &ansible
     restart: unless-stopped
     image: "{{ osism_ansible_image }}"
-{% if ara_enable|bool %}
     env_file:
+      - "{{ manager_configuration_directory }}/ansible.env"
+{% if ara_enable|bool %}
       - "{{ manager_configuration_directory }}/ara.env"
 {% endif %}
     command: sleep infinity
@@ -105,6 +106,7 @@ services:
     environment:
       WAIT_HOSTS: redis:6379, postgres:5432, vault:8200
     env_file:
+      - "{{ manager_configuration_directory }}/ansible.env"
       - "{{ manager_configuration_directory }}/awx.env"
 {% if ara_enable|bool %}
       - "{{ manager_configuration_directory }}/ara.env"
@@ -251,6 +253,8 @@ secrets:
     file: {{ manager_secrets_directory }}/NETBOX_POSTGRES_PASSWORD
   NETBOX_SECRET_KEY:
     file: {{ manager_secrets_directory }}/NETBOX_SECRET_KEY
+  NETBOX_TOKEN:
+    file: {{ manager_secrets_directory }}/NETBOX_TOKEN
 {% endif %}
 {% if postgres_enable|bool %}
   POSTGRES_PASSWORD:
