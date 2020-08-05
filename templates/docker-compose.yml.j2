@@ -20,6 +20,10 @@ services:
       - "{{ archive_directory }}:/archive:rw"
       - "{{ configuration_directory }}:/opt/configuration:ro"
       - "{{ secrets_directory }}:/ansible/secrets:ro"
+{% if netbox_enable|bool %}
+    secrets:
+      - NETBOX_TOKEN
+{% endif %}
     depends_on:
 {% if redis_enable|bool %}
       - redis
@@ -116,8 +120,11 @@ services:
     security_opt:
       - apparmor:unconfined
     secrets:
-      - TOWER_SECRET_KEY
+{% if netbox_enable|bool %}
+      - NETBOX_TOKEN
+{% endif %}
       - TOWER_PASSWORD
+      - TOWER_SECRET_KEY
       - TOWER_USERNAME
   awx-web:
     <<: *awx
