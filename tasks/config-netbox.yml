@@ -44,6 +44,8 @@
       secret: "{{ netbox_postgres_password }}"
     - filename: NETBOX_SECRET_KEY
       secret: "{{ netbox_secret_key }}"
+    - filename: NETBOX_TOKEN
+      secret: "{{ netbox_ansibleuser_api_token }}"
   no_log: true
 
 - name: Deploy initializers for netbox

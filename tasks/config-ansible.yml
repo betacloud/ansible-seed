@@ -8,3 +8,11 @@
   become: true
   loop: "{{ private_keys|dict2items }}"
   no_log: true
+
+- name: Copy ansible environment file
+  template:
+    src: env/ansible.env.j2
+    dest: "{{ manager_configuration_directory }}/ansible.env"
+    mode: 0640
+    owner: "{{ operator_user }}"
+    group: "{{ operator_group }}"
