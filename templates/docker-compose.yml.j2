@@ -183,7 +183,6 @@ services:
     depends_on:
       - postgres
       - redis
-      - netbox-worker
     volumes:
       - "{{ manager_configuration_directory }}/configuration.py:/etc/netbox/config/configuration.py:ro"
       - "{{ manager_configuration_directory }}/gunicorn_config.py:/etc/netbox/config/gunicorn_config.py:ro"
@@ -200,6 +199,7 @@ services:
   netbox-worker:
     <<: *netbox
     depends_on:
+      - netbox
       - redis
     entrypoint: python3 /opt/netbox/netbox/manage.py
     command: rqworker
